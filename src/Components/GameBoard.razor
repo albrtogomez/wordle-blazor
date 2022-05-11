@@ -1,13 +1,15 @@
-﻿<div class="error-message">@ErrorMessage</div>
+﻿@inject GameManagerService GameManager
+
+<div class="error-message">@ErrorMessage</div>
 
 <div class="board">
 
-    @for (int i = 0; i < GameBoardManager.RowSize; i++)
+    @for (int i = 0; i < GameManagerService.RowSize; i++)
     {
-        @for (int j = 0; j < GameBoardManager.ColumnSize; j++)
+        @for (int j = 0; j < GameManagerService.ColumnSize; j++)
         {
-            <div class="board-box @GetBoardCellStatusCssClass(GameBoardManager.Board[i, j].Status)">
-                @GameBoardManager.Board[i, j].Value
+            <div class="board-box @GetBoardCellStateCssClass(GameManager.BoardGrid[i, j].State)">
+                @GameManager.BoardGrid[i, j].Value
             </div>
         }
     }
@@ -15,29 +17,33 @@
 </div>
 
 <CascadingValue Value="this">
-    <CascadingValue Value="GameBoardManager">
+    <CascadingValue Value="GameManager">
         <Keyboard/>
     </CascadingValue>
 </CascadingValue>
 
 @code {
-    public GameBoardManager GameBoardManager { get; set; } = new GameBoardManager();
-
     public string ErrorMessage { get; set; } = "";
 
-    public string GetBoardCellStatusCssClass(BoardCellStatus status)
+    protected override async Task OnInitializedAsync()
     {
-        switch (status)
+        await GameManager.LoadJsonSpanishDictionary();
+        GameManager.StartGame();
+    }
+
+    public string GetBoardCellStateCssClass(BoardCellState state)
+    {
+        switch (state)
         {
-            case BoardCellStatus.Typing:
+            case BoardCellState.Typing:
                 return "board-typing-letter";
-            case BoardCellStatus.Correct:
+            case BoardCellState.Correct:
                 return "board-correct-letter";
-            case BoardCellStatus.IncorrectPosition:
+            case BoardCellState.IncorrectPosition:
                 return "board-incorrectposition-letter";
-            case BoardCellStatus.Wrong:
+            case BoardCellState.Wrong:
                 return "board-wrong-letter";
-            case BoardCellStatus.Empty:
+            case BoardCellState.Empty:
             default:
                 return "";
         }

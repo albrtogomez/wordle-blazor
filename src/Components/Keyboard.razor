@@ -40,7 +40,7 @@
 
 @code {
     [CascadingParameter]
-    public GameBoardManager? GameBoardManager { get; set; }
+    public GameManagerService? GameBoardManager { get; set; }
 
     [CascadingParameter]
     public GameBoard? AncestorComponent { get; set; }
@@ -59,7 +59,7 @@
 
     public void SendAnswer()
     {
-        GameBoardManager.CheckCurrentLineSolution();
+        GameBoardManager?.CheckCurrentLineSolution();
         AncestorComponent?.NotifyChange();
     }
 }

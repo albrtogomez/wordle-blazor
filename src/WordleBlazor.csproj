@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.4" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\data\spanish-words.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

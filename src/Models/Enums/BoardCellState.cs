@@ -1,6 +1,6 @@
 ﻿namespace WordleBlazor.Models.Enums
 {
-    public enum BoardCellStatus
+    public enum BoardCellState
     {
         Empty,
         Typing,

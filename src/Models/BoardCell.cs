@@ -5,6 +5,6 @@ namespace WordleBlazor.Models
     public class BoardCell
     {
         public char? Value { get; set; }
-        public BoardCellStatus Status { get; set; } = BoardCellStatus.Empty;
+        public BoardCellState State { get; set; } = BoardCellState.Empty;
     }
 }

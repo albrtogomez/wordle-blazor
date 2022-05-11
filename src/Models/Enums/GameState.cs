@@ -1,7 +1,8 @@
 ﻿namespace WordleBlazor.Models.Enums
 {
-    public enum GameStatus
+    public enum GameState
     {
+        NotStarted,
         Playing,
         Win,
         GameOver
