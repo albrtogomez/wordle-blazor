@@ -24,18 +24,21 @@
 <!-- Features -->
 ## Features
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [x] Basic game is playable
+- [x] Replicated visual style of original Wordle with HTML/CSS
+- [x] Game manager service with all the game logic
+- [x] Spanish words dataset
 
 <!-- ROADMAP -->
-## Next Features
+## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Give feedback with alert messages (win, game over, incorrect word, ...)
+- [ ] Add play again button when player win or lose the game
+- [ ] Add CSS Animations to enhance visual experience and also give feedback to the player
+- [ ] Add English localization (multi-lenguage) with selector
+- [ ] Add state management to keep current game and stats between sessions
+- [ ] Create player stats page from previous games
+- [ ] Deploy to GitHub Pages
 
 <!-- CONTRIBUTING -->
 ## Contributing
