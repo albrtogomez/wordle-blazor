@@ -28,12 +28,12 @@
   border-color: #6aaa64;
 }
 
-.board-incorrect-position-letter {
+.board-incorrectposition-letter {
   background-color: #c9b458;
   border-color: #c9b458;
 }
 
-.board-incorrect-letter {
+.board-wrong-letter {
   background-color: #787c7e;
   border-color: #787c7e;
 }

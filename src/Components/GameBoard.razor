@@ -1,0 +1,50 @@
+﻿<div class="error-message">@ErrorMessage</div>
+
+<div class="board">
+
+    @for (int i = 0; i < GameBoardManager.RowSize; i++)
+    {
+        @for (int j = 0; j < GameBoardManager.ColumnSize; j++)
+        {
+            <div class="board-box @GetBoardCellStatusCssClass(GameBoardManager.Board[i, j].Status)">
+                @GameBoardManager.Board[i, j].Value
+            </div>
+        }
+    }
+
+</div>
+
+<CascadingValue Value="this">
+    <CascadingValue Value="GameBoardManager">
+        <Keyboard/>
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+    public GameBoardManager GameBoardManager { get; set; } = new GameBoardManager();
+
+    public string ErrorMessage { get; set; } = "";
+
+    public string GetBoardCellStatusCssClass(BoardCellStatus status)
+    {
+        switch (status)
+        {
+            case BoardCellStatus.Typing:
+                return "board-typing-letter";
+            case BoardCellStatus.Correct:
+                return "board-correct-letter";
+            case BoardCellStatus.IncorrectPosition:
+                return "board-incorrectposition-letter";
+            case BoardCellStatus.Wrong:
+                return "board-wrong-letter";
+            case BoardCellStatus.Empty:
+            default:
+                return "";
+        }
+    }
+
+    public void NotifyChange()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+}

@@ -1,0 +1,65 @@
+﻿<div class="keyboard">
+    <div class="keyboard-line">
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Q'))">Q</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('W'))">W</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('E'))">E</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('R'))">R</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('T'))">T</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Y'))">Y</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('U'))">U</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('I'))">I</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('O'))">O</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('P'))">P</div>
+    </div>
+
+    <div class="keyboard-line">
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('A'))">A</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('S'))">S</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('D'))">D</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('F'))">F</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('G'))">G</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('H'))">H</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('J'))">J</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('K'))">K</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('L'))">L</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Ñ'))">Ñ</div>
+    </div>
+
+    <div class="keyboard-line">
+        <div class="keyboard-send" @onclick="SendAnswer">ENVIAR</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Z'))">Z</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('X'))">X</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('C'))">C</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('V'))">V</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('B'))">B</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('N'))">N</div>
+        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('M'))">M</div>
+        <div class="keyboard-backspace" @onclick="RemoveLastLetter">BORRAR</div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public GameBoardManager? GameBoardManager { get; set; }
+
+    [CascadingParameter]
+    public GameBoard? AncestorComponent { get; set; }
+
+    public void EnterNextLetter(char value)
+    {
+        GameBoardManager?.EnterNextValue(value);
+        AncestorComponent?.NotifyChange();
+    }
+
+    public void RemoveLastLetter()
+    {
+        GameBoardManager?.RemoveLastValue();
+        AncestorComponent?.NotifyChange();
+    }
+
+    public void SendAnswer()
+    {
+        GameBoardManager.CheckCurrentLineSolution();
+        AncestorComponent?.NotifyChange();
+    }
+}
