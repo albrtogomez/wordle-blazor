@@ -9,6 +9,8 @@
     <a href="https://github.com/albrtogomez/wordle-blazor/issues">Report Bug</a>
     ·
     <a href="https://github.com/albrtogomez/wordle-blazor/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/albrtogomez/wordle-blazor/issues">Make Suggestions</a>
   </p>
 </div>
 
