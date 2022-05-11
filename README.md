@@ -26,8 +26,8 @@
 <!-- Features -->
 ## Features
 
-- [x] #1
-- [x] #2
+- [ ] https://github.com/albrtogomez/wordle-blazor/issues/1
+- [ ] #2
 - [x] Spanish words dataset
 - [x] Basic game is playable
 - [ ] Give feedback with alert messages (win, game over, incorrect word, ...)
