@@ -26,16 +26,15 @@
 <!-- Features -->
 ## Features
 
-
-- [x] Replicated visual style of original Wordle with HTML/CSS
-- [x] Game manager service with all the game logic
+- [x] #1
+- [x] #2
 - [x] Spanish words dataset
 - [x] Basic game is playable
 - [ ] Give feedback with alert messages (win, game over, incorrect word, ...)
 - [ ] Style keyboard keys to know the state of each used letter
 - [ ] Add play again button when player win or lose the game
 - [ ] Pick a random word every game
-- [ ] Add CSS Animations to enhance visual experience and also give feedback to the player
+- [ ] Add CSS Animations to enhance visual experience
 - [ ] Add English localization (multi-lenguage) with selector
 - [ ] Add state management to keep current game and stats between sessions
 - [ ] Create player stats page from previous games
