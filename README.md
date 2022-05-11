@@ -26,14 +26,11 @@
 <!-- Features -->
 ## Features
 
-- [x] Basic game is playable
+
 - [x] Replicated visual style of original Wordle with HTML/CSS
 - [x] Game manager service with all the game logic
 - [x] Spanish words dataset
-
-<!-- ROADMAP -->
-## Roadmap
-
+- [x] Basic game is playable
 - [ ] Give feedback with alert messages (win, game over, incorrect word, ...)
 - [ ] Style keyboard keys to know the state of each used letter
 - [ ] Add play again button when player win or lose the game
