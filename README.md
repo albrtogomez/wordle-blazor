@@ -26,8 +26,8 @@
 <!-- Features -->
 ## Features
 
-- [ ] https://github.com/albrtogomez/wordle-blazor/issues/1
-- [ ] #2
+- [x] Replicate visual style of original Wordle with HTML/CSS
+- [x] Game manager service with all the game logic
 - [x] Spanish words dataset
 - [x] Basic game is playable
 - [ ] Give feedback with alert messages (win, game over, incorrect word, ...)
