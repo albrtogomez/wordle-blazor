@@ -14,6 +14,7 @@ namespace WordleBlazor.Services
         public BoardCell[,] BoardGrid { get => _boardGrid; }
 
         private readonly HttpClient _httpClient;
+        private readonly ToastNotificationService _toastNotificationService;
 
         private string solution = "CALDO"; // IMPORTANT: COLUMN SIZE MUST BE EQUALS TO SOLUTION LENGHT!
         private List<string> validWords = new();
@@ -21,9 +22,10 @@ namespace WordleBlazor.Services
         private int currentColumn;
         private GameState gameStatus;
 
-        public GameManagerService(HttpClient httpClient)
+        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService)
         {
             _httpClient = httpClient;
+            _toastNotificationService = toastNotificationService;
 
             _boardGrid = new BoardCell[RowSize, ColumnSize];
 
@@ -104,10 +106,16 @@ namespace WordleBlazor.Services
                 string currentLine = currentLineBuilder.ToString();
 
                 if (currentLine.Length != solution.Length)
-                    return; // Not enough letters message
+                {
+                    _toastNotificationService.ShowToast("No hay suficientes letras");
+                    return;
+                }
 
                 if (!validWords.Contains(currentLine) && currentLine != solution)
-                    return; // Not valid word message
+                {
+                    _toastNotificationService.ShowToast("La palabra no existe");
+                    return;
+                }
 
                 for (int i = 0; i < currentLine.Length; i++)
                 {
@@ -124,7 +132,7 @@ namespace WordleBlazor.Services
                 if (currentLine == solution)
                 {
                     gameStatus = GameState.Win;
-                    // Win message
+                    _toastNotificationService.ShowToast("Has ganado!!");
                 }
                 else if (currentRow < RowSize - 1)
                 {
@@ -134,7 +142,7 @@ namespace WordleBlazor.Services
                 else
                 {
                     gameStatus = GameState.GameOver;
-                    // Game Over Message (with solution)
+                    _toastNotificationService.ShowToast("Game Over");
                 }
             }
         }

@@ -1,7 +1,5 @@
 ﻿@inject GameManagerService GameManager
 
-<div class="error-message">@ErrorMessage</div>
-
 <div class="board">
 
     @for (int i = 0; i < GameManagerService.RowSize; i++)
@@ -23,8 +21,6 @@
 </CascadingValue>
 
 @code {
-    public string ErrorMessage { get; set; } = "";
-
     protected override async Task OnInitializedAsync()
     {
         await GameManager.LoadJsonSpanishDictionary();
