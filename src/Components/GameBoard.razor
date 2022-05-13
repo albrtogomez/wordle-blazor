@@ -1,4 +1,4 @@
-﻿@inject GameManagerService GameManager
+﻿@inject GameManagerService GameManagerService
 
 <div class="board">
 
@@ -6,8 +6,8 @@
     {
         @for (int j = 0; j < GameManagerService.ColumnSize; j++)
         {
-            <div class="board-box @GetBoardCellStateCssClass(GameManager.BoardGrid[i, j].State)">
-                @GameManager.BoardGrid[i, j].Value
+            <div class="board-box @GetBoardCellStateCssClass(GameManagerService.BoardGrid[i, j].State)">
+                @GameManagerService.BoardGrid[i, j].Value
             </div>
         }
     }
@@ -15,38 +15,5 @@
 </div>
 
 <CascadingValue Value="this">
-    <CascadingValue Value="GameManager">
-        <Keyboard/>
-    </CascadingValue>
+    <Keyboard/>
 </CascadingValue>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        await GameManager.LoadJsonSpanishDictionary();
-        GameManager.StartGame();
-    }
-
-    public string GetBoardCellStateCssClass(BoardCellState state)
-    {
-        switch (state)
-        {
-            case BoardCellState.Typing:
-                return "board-typing-letter";
-            case BoardCellState.Correct:
-                return "board-correct-letter";
-            case BoardCellState.IncorrectPosition:
-                return "board-incorrectposition-letter";
-            case BoardCellState.Wrong:
-                return "board-wrong-letter";
-            case BoardCellState.Empty:
-            default:
-                return "";
-        }
-    }
-
-    public void NotifyChange()
-    {
-        InvokeAsync(StateHasChanged);
-    }
-}

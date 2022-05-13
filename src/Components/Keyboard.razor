@@ -1,65 +1,41 @@
-﻿<div class="keyboard">
+﻿@inject GameManagerService GameManagerService
+
+<div class="keyboard">
     <div class="keyboard-line">
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Q'))">Q</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('W'))">W</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('E'))">E</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('R'))">R</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('T'))">T</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Y'))">Y</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('U'))">U</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('I'))">I</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('O'))">O</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('P'))">P</div>
+        <div class="keyboard-letter @GetKeyStateClass('Q')" @onclick="(() => EnterNextLetter('Q'))">Q</div>
+        <div class="keyboard-letter @GetKeyStateClass('W')" @onclick="(() => EnterNextLetter('W'))">W</div>
+        <div class="keyboard-letter @GetKeyStateClass('E')" @onclick="(() => EnterNextLetter('E'))">E</div>
+        <div class="keyboard-letter @GetKeyStateClass('R')" @onclick="(() => EnterNextLetter('R'))">R</div>
+        <div class="keyboard-letter @GetKeyStateClass('T')" @onclick="(() => EnterNextLetter('T'))">T</div>
+        <div class="keyboard-letter @GetKeyStateClass('Y')" @onclick="(() => EnterNextLetter('Y'))">Y</div>
+        <div class="keyboard-letter @GetKeyStateClass('U')" @onclick="(() => EnterNextLetter('U'))">U</div>
+        <div class="keyboard-letter @GetKeyStateClass('I')" @onclick="(() => EnterNextLetter('I'))">I</div>
+        <div class="keyboard-letter @GetKeyStateClass('O')" @onclick="(() => EnterNextLetter('O'))">O</div>
+        <div class="keyboard-letter @GetKeyStateClass('P')" @onclick="(() => EnterNextLetter('P'))">P</div>
     </div>
 
     <div class="keyboard-line">
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('A'))">A</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('S'))">S</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('D'))">D</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('F'))">F</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('G'))">G</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('H'))">H</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('J'))">J</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('K'))">K</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('L'))">L</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Ñ'))">Ñ</div>
+        <div class="keyboard-letter @GetKeyStateClass('A')" @onclick="(() => EnterNextLetter('A'))">A</div>
+        <div class="keyboard-letter @GetKeyStateClass('S')" @onclick="(() => EnterNextLetter('S'))">S</div>
+        <div class="keyboard-letter @GetKeyStateClass('D')" @onclick="(() => EnterNextLetter('D'))">D</div>
+        <div class="keyboard-letter @GetKeyStateClass('F')" @onclick="(() => EnterNextLetter('F'))">F</div>
+        <div class="keyboard-letter @GetKeyStateClass('G')" @onclick="(() => EnterNextLetter('G'))">G</div>
+        <div class="keyboard-letter @GetKeyStateClass('H')" @onclick="(() => EnterNextLetter('H'))">H</div>
+        <div class="keyboard-letter @GetKeyStateClass('J')" @onclick="(() => EnterNextLetter('J'))">J</div>
+        <div class="keyboard-letter @GetKeyStateClass('K')" @onclick="(() => EnterNextLetter('K'))">K</div>
+        <div class="keyboard-letter @GetKeyStateClass('L')" @onclick="(() => EnterNextLetter('L'))">L</div>
+        <div class="keyboard-letter @GetKeyStateClass('Ñ')" @onclick="(() => EnterNextLetter('Ñ'))">Ñ</div>
     </div>
 
     <div class="keyboard-line">
         <div class="keyboard-send" @onclick="SendAnswer">ENVIAR</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('Z'))">Z</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('X'))">X</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('C'))">C</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('V'))">V</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('B'))">B</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('N'))">N</div>
-        <div class="keyboard-letter" @onclick="(() => EnterNextLetter('M'))">M</div>
+        <div class="keyboard-letter @GetKeyStateClass('Z')" @onclick="(() => EnterNextLetter('Z'))">Z</div>
+        <div class="keyboard-letter @GetKeyStateClass('X')" @onclick="(() => EnterNextLetter('X'))">X</div>
+        <div class="keyboard-letter @GetKeyStateClass('C')" @onclick="(() => EnterNextLetter('C'))">C</div>
+        <div class="keyboard-letter @GetKeyStateClass('V')" @onclick="(() => EnterNextLetter('V'))">V</div>
+        <div class="keyboard-letter @GetKeyStateClass('B')" @onclick="(() => EnterNextLetter('B'))">B</div>
+        <div class="keyboard-letter @GetKeyStateClass('N')" @onclick="(() => EnterNextLetter('N'))">N</div>
+        <div class="keyboard-letter @GetKeyStateClass('M')" @onclick="(() => EnterNextLetter('M'))">M</div>
         <div class="keyboard-backspace" @onclick="RemoveLastLetter">BORRAR</div>
     </div>
 </div>
-
-@code {
-    [CascadingParameter]
-    public GameManagerService? GameBoardManager { get; set; }
-
-    [CascadingParameter]
-    public GameBoard? AncestorComponent { get; set; }
-
-    public void EnterNextLetter(char value)
-    {
-        GameBoardManager?.EnterNextValue(value);
-        AncestorComponent?.NotifyChange();
-    }
-
-    public void RemoveLastLetter()
-    {
-        GameBoardManager?.RemoveLastValue();
-        AncestorComponent?.NotifyChange();
-    }
-
-    public void SendAnswer()
-    {
-        GameBoardManager?.CheckCurrentLineSolution();
-        AncestorComponent?.NotifyChange();
-    }
-}

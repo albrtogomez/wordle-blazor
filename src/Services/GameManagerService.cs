@@ -13,10 +13,12 @@ namespace WordleBlazor.Services
         private BoardCell[,] _boardGrid;
         public BoardCell[,] BoardGrid { get => _boardGrid; }
 
+        public Dictionary<char, KeyState> UsedKeys { get; set; } = new Dictionary<char, KeyState>();
+
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
 
-        private string solution = "CALDO"; // IMPORTANT: COLUMN SIZE MUST BE EQUALS TO SOLUTION LENGHT!
+        private string solution = "CARTA"; // IMPORTANT: COLUMN SIZE MUST BE EQUALS TO SOLUTION LENGHT!
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
@@ -119,14 +121,32 @@ namespace WordleBlazor.Services
 
                 for (int i = 0; i < currentLine.Length; i++)
                 {
-                    var index = solution.IndexOf(currentLine[i]);
+                    var foundIndexes = new List<int>();
 
-                    if (index < 0)
-                        _boardGrid[currentRow, i].State = BoardCellState.Wrong;
-                    else if (index == i)
-                        _boardGrid[currentRow, i].State = BoardCellState.Correct;
+                    for (int j = 0; j < solution.Length; j++)
+                    {
+                        if (solution[j] == currentLine[i])
+                            foundIndexes.Add(j);
+                    }
+
+                    if (foundIndexes.Count > 0)
+                    {
+                        if (foundIndexes.Contains(i))
+                        {
+                            _boardGrid[currentRow, i].State = BoardCellState.Correct;
+                            UsedKeys.TryAdd(currentLine[i], KeyState.Correct);
+                        }
+                        else
+                        {
+                            _boardGrid[currentRow, i].State = BoardCellState.IncorrectPosition;
+                            UsedKeys.TryAdd(currentLine[i], KeyState.IncorrectPosition);
+                        }
+                    }
                     else
-                        _boardGrid[currentRow, i].State = BoardCellState.IncorrectPosition;
+                    {
+                        _boardGrid[currentRow, i].State = BoardCellState.Wrong;
+                        UsedKeys.TryAdd(currentLine[i], KeyState.Wrong);
+                    }
                 }
 
                 if (currentLine == solution)

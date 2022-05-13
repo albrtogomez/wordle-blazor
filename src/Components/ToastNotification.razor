@@ -4,33 +4,3 @@
 <div class="toast-message @(IsVisible ? "show" : "")">
     @Message
 </div>
-
-@code {
-    protected string Message { get; set; } = "";
-
-    protected bool IsVisible { get; set; }
-
-    protected override void OnInitialized() 
-    {
-        ToastNotificationService.OnShow += ShowToast;
-        ToastNotificationService.OnHide += HideToast;
-    }
-
-    private void ShowToast(string message) 
-    {
-        Message = message;
-        IsVisible = true;
-        StateHasChanged();
-    }
-
-    private void HideToast() 
-    {
-        IsVisible = false;
-        StateHasChanged();
-    }
-
-    public void Dispose() 
-    {
-        ToastNotificationService.OnShow -= ShowToast;
-    }
-}
