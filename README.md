@@ -30,10 +30,11 @@
 - [x] Game manager service with all the game logic
 - [x] Spanish words dataset
 - [x] Basic game is playable
-- [ ] Give feedback with alert messages (win, game over, incorrect word, ...)
-- [ ] Style keyboard keys to know the state of each used letter
-- [ ] Add play again button when player win or lose the game
-- [ ] Pick a random word every game
+- [x] Give feedback with alert messages (win, game over, incorrect word, ...)
+- [x] Style keyboard keys to know the state of each used letter
+- [x] Add play again button when player win or lose the game
+- [x] Pick new solution every day
+- [ ] Add new unlimited mode with random word each game
 - [ ] Add CSS Animations to enhance visual experience
 - [ ] Add English localization (multi-lenguage) with selector
 - [ ] Add state management to keep current game and stats between sessions

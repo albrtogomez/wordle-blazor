@@ -18,7 +18,7 @@ namespace WordleBlazor.Services
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
 
-        private string solution = "CARTA"; // IMPORTANT: COLUMN SIZE MUST BE EQUALS TO SOLUTION LENGHT!
+        private string solution;
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
@@ -42,6 +42,17 @@ namespace WordleBlazor.Services
 
             validWords = wordList ?? new List<string>();
         }
+
+        public async Task GetTodaySolution()
+        {
+            var solutions = await _httpClient.GetFromJsonAsync<Dictionary<int, string>>("data/daily-solutions-sp.json");
+
+            if (solutions != null)
+            {
+                solution = solutions[DateTime.Now.DayOfYear];
+            }
+        }
+
 
         public void StartGame()
         {

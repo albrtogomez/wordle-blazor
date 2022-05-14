@@ -20,6 +20,7 @@ namespace WordleBlazor.Components
         protected override async Task OnInitializedAsync()
         {
             await GameManagerService.LoadJsonSpanishDictionary();
+            await GameManagerService.GetTodaySolution();
             GameManagerService.StartGame();
         }
 
