@@ -14,6 +14,13 @@
 
 </div>
 
-<CascadingValue Value="this">
-    <Keyboard/>
-</CascadingValue>
+<div class="@NextWordClasses">
+    <h2>@GetNextWordMessage()</h2>
+    <Button Text="JUGAR MÁS" Icon="play" OnClick="@PlayAgain" />
+</div>
+
+<div class="@KeyboardContainerClasses">
+    <CascadingValue Value="this">
+        <Keyboard />
+    </CascadingValue>
+</div>

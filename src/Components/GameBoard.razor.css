@@ -37,3 +37,25 @@
   background-color: #787c7e;
   border-color: #787c7e;
 }
+
+.next-word {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 164px;
+    margin-bottom: 300px;
+}
+
+.next-word.show {
+    display: flex;
+}
+
+.keyboard-container {
+    display: none;
+}
+
+.keyboard-container.show {
+    display: flex;
+}
+

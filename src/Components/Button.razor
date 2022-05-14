@@ -1,0 +1,10 @@
+﻿@inherits BaseComponent
+
+<button class="@ButtonClasses" style="@Style" @attributes="UserAttributes" @onclick="OnClick">
+    @if (!string.IsNullOrWhiteSpace(Icon))
+    {
+        <i class="icon fa-solid fa-@Icon"/>
+
+        @Text
+    }
+</button>

@@ -22,7 +22,9 @@ namespace WordleBlazor.Services
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
-        private GameState gameStatus;
+
+        public GameState _gameState;
+        public GameState GameState { get => _gameState; }
 
         public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService)
         {
@@ -43,24 +45,25 @@ namespace WordleBlazor.Services
 
         public void StartGame()
         {
-            gameStatus = GameState.Playing;
+            _gameState = GameState.Playing;
         }
 
         public void Reset()
         {
             _boardGrid = new BoardCell[RowSize, ColumnSize];
+            UsedKeys = new Dictionary<char, KeyState>();
 
             PopulateBoard();
 
             currentRow = 0;
             currentColumn = 0;
 
-            gameStatus = GameState.Playing;
+            _gameState = GameState.Playing;
         }
 
         public void EnterNextValue(char value)
         {
-            if (gameStatus == GameState.Playing)
+            if (GameState == GameState.Playing)
             {
                 if (currentColumn == ColumnSize - 1 && BoardGrid[currentRow, currentColumn].Value != null)
                     return;
@@ -75,7 +78,7 @@ namespace WordleBlazor.Services
 
         public void RemoveLastValue()
         {
-            if (gameStatus == GameState.Playing)
+            if (GameState == GameState.Playing)
             {
                 if (currentColumn == 0 && BoardGrid[currentRow, currentColumn].Value == null)
                     return;
@@ -96,7 +99,7 @@ namespace WordleBlazor.Services
 
         public void CheckCurrentLineSolution()
         {
-            if (gameStatus == GameState.Playing)
+            if (GameState == GameState.Playing)
             {
                 StringBuilder currentLineBuilder = new();
 
@@ -151,8 +154,7 @@ namespace WordleBlazor.Services
 
                 if (currentLine == solution)
                 {
-                    gameStatus = GameState.Win;
-                    _toastNotificationService.ShowToast("Has ganado!!");
+                    _gameState = GameState.Win;
                 }
                 else if (currentRow < RowSize - 1)
                 {
@@ -161,8 +163,7 @@ namespace WordleBlazor.Services
                 }
                 else
                 {
-                    gameStatus = GameState.GameOver;
-                    _toastNotificationService.ShowToast("Game Over");
+                    _gameState = GameState.GameOver;
                 }
             }
         }
