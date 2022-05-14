@@ -1,7 +1,7 @@
 <h1 align="center">Wordle Blazor</h1>
 
   <p align="center">
-    Another Wordle clone but using Blazor WebAssembly
+    Another Wordle clone but Blazor WebAssembly powered
     <br />
     <br />
     <a href="http://albrtogomez.github.io/wordle-blazor">View Demo</a>
