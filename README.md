@@ -21,7 +21,8 @@
 
 ### Built With
 
-* [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
+* [Blazor WASM](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
+* [.NET 6](https://docs.microsoft.com/es-es/dotnet/core/whats-new/dotnet-6)
 
 <!-- Features -->
 ## Features
