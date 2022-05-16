@@ -18,7 +18,7 @@ namespace WordleBlazor.Services
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
 
-        private string solution;
+        private string solution = "";
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
