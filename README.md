@@ -42,6 +42,7 @@
 - [ ] Add English localization (multi-lenguage) with selector
 - [ ] Add state management to keep current game and stats between sessions
 - [ ] Create player stats page from previous games
+- [ ] Dark mode with selector
 - [ ] Deploy to GitHub Pages
 
 <!-- CONTRIBUTING -->
