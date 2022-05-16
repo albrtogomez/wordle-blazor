@@ -35,6 +35,8 @@
 - [x] Style keyboard keys to know the state of each used letter
 - [x] Add play again button when player win or lose the game
 - [x] Pick new solution every day
+- [ ] Switch to Tailwind CSS
+- [ ] Capture player keyboard input
 - [ ] Add new unlimited mode with random word each game
 - [ ] Add CSS Animations to enhance visual experience
 - [ ] Add English localization (multi-lenguage) with selector
