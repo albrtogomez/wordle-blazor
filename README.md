@@ -21,8 +21,10 @@
 
 ### Built With
 
-* [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 * [.NET 6](https://docs.microsoft.com/es-es/dotnet/core/whats-new/dotnet-6)
+* [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
+* [Tailwind CSS](https://tailwindcss.com/)
+
 
 <!-- Features -->
 ## Features
@@ -35,7 +37,7 @@
 - [x] Style keyboard keys to know the state of each used letter
 - [x] Add play again button when player win or lose the game
 - [x] Pick new solution every day
-- [ ] Switch to Tailwind CSS
+- [x] Switch to Tailwind CSS
 - [ ] Capture player keyboard input
 - [ ] Add new unlimited mode with random word each game
 - [ ] Add CSS Animations to enhance visual experience
@@ -44,6 +46,7 @@
 - [ ] Create player stats page from previous games
 - [ ] Dark mode with selector
 - [ ] Deploy to GitHub Pages
+- [ ] Create Hybrid Blazor App
 
 <!-- CONTRIBUTING -->
 ## Contributing
