@@ -6,7 +6,7 @@
     {
         @for (int j = 0; j < GameManagerService.ColumnSize; j++)
         {
-            <div class="flex justify-center items-center h-16 w-16 m-[3px] bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass(GameManagerService.BoardGrid[i, j].State)">
+            <div class="flex justify-center items-center h-16 w-16 m-[3px] pb-1 bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass(GameManagerService.BoardGrid[i, j].State)">
                 @GameManagerService.BoardGrid[i, j].Value
             </div>
         }
