@@ -37,7 +37,7 @@ namespace WordleBlazor.Components
 
             return keyStatus.Value switch
             {
-                KeyState.Correct => "bg-green border-green text-white",
+                KeyState.Correct => "bg-greenkey border-green text-white",
                 KeyState.IncorrectPosition => "bg-yellow border-yellow text-white",
                 KeyState.Wrong => "bg-darkgray border-darkgray text-white",
                 _ => ""
@@ -52,7 +52,10 @@ namespace WordleBlazor.Components
             }
             else if (KeyType == KeyType.Send)
             {
-                GameManagerService.CheckCurrentLineSolution();
+                var result = GameManagerService.CheckCurrentLineSolution();
+
+                if (result == CheckLineResult.NotEnoughLetters || result == CheckLineResult.WordDoesntExist)
+                    AncestorComponent?.TriggerShakeLineAnimation(GameManagerService.GetCurrentRow());
             }
             else if (KeyType == KeyType.Remove)
             {

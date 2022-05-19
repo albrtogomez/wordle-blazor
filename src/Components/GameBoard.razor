@@ -1,17 +1,53 @@
 ﻿@inject GameManagerService GameManagerService
 
-<div class="grid grid-cols-5 my-2.5">
+<div class="flex flex-col">
+    <BoardLine @ref="boardLine0">
+        <BoardCell CellValue="GameManagerService.BoardGrid[0, 0].Value" CellState="GameManagerService.BoardGrid[0, 0].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[0, 1].Value" CellState="GameManagerService.BoardGrid[0, 1].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[0, 2].Value" CellState="GameManagerService.BoardGrid[0, 2].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[0, 3].Value" CellState="GameManagerService.BoardGrid[0, 3].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[0, 4].Value" CellState="GameManagerService.BoardGrid[0, 4].State" />
+    </BoardLine>
 
-    @for (int i = 0; i < GameManagerService.RowSize; i++)
-    {
-        @for (int j = 0; j < GameManagerService.ColumnSize; j++)
-        {
-            <div class="flex justify-center items-center h-16 w-16 m-[3px] pb-1 bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass(GameManagerService.BoardGrid[i, j].State)">
-                @GameManagerService.BoardGrid[i, j].Value
-            </div>
-        }
-    }
+    <BoardLine @ref="boardLine1">
+        <BoardCell CellValue="GameManagerService.BoardGrid[1, 0].Value" CellState="GameManagerService.BoardGrid[1, 0].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[1, 1].Value" CellState="GameManagerService.BoardGrid[1, 1].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[1, 2].Value" CellState="GameManagerService.BoardGrid[1, 2].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[1, 3].Value" CellState="GameManagerService.BoardGrid[1, 3].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[1, 4].Value" CellState="GameManagerService.BoardGrid[1, 4].State" />
+    </BoardLine>
 
+    <BoardLine @ref="boardLine2">
+        <BoardCell CellValue="GameManagerService.BoardGrid[2, 0].Value" CellState="GameManagerService.BoardGrid[2, 0].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[2, 1].Value" CellState="GameManagerService.BoardGrid[2, 1].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[2, 2].Value" CellState="GameManagerService.BoardGrid[2, 2].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[2, 3].Value" CellState="GameManagerService.BoardGrid[2, 3].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[2, 4].Value" CellState="GameManagerService.BoardGrid[2, 4].State" />
+    </BoardLine>
+
+    <BoardLine @ref="boardLine3">
+        <BoardCell CellValue="GameManagerService.BoardGrid[3, 0].Value" CellState="GameManagerService.BoardGrid[3, 0].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[3, 1].Value" CellState="GameManagerService.BoardGrid[3, 1].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[3, 2].Value" CellState="GameManagerService.BoardGrid[3, 2].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[3, 3].Value" CellState="GameManagerService.BoardGrid[3, 3].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[3, 4].Value" CellState="GameManagerService.BoardGrid[3, 4].State" />
+    </BoardLine>
+
+    <BoardLine @ref="boardLine4">
+        <BoardCell CellValue="GameManagerService.BoardGrid[4, 0].Value" CellState="GameManagerService.BoardGrid[4, 0].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[4, 1].Value" CellState="GameManagerService.BoardGrid[4, 1].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[4, 2].Value" CellState="GameManagerService.BoardGrid[4, 2].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[4, 3].Value" CellState="GameManagerService.BoardGrid[4, 3].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[4, 4].Value" CellState="GameManagerService.BoardGrid[4, 4].State" />
+    </BoardLine>
+
+    <BoardLine @ref="boardLine5">
+        <BoardCell CellValue="GameManagerService.BoardGrid[5, 0].Value" CellState="GameManagerService.BoardGrid[5, 0].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[5, 1].Value" CellState="GameManagerService.BoardGrid[5, 1].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[5, 2].Value" CellState="GameManagerService.BoardGrid[5, 2].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[5, 3].Value" CellState="GameManagerService.BoardGrid[5, 3].State" />
+        <BoardCell CellValue="GameManagerService.BoardGrid[5, 4].Value" CellState="GameManagerService.BoardGrid[5, 4].State" />
+    </BoardLine>
 </div>
 
 <div class="flex-col items-center justify-start h-[164px] mb-[300px] @NextWordClasses">

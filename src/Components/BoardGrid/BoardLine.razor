@@ -1,0 +1,19 @@
+﻿@namespace WordleBlazor.Components
+
+<Animation Name="animate-shake" Duration="1000" @ref="AnimationRef">
+    <div class="grid grid-cols-5">
+        @ChildContent
+    </div>
+</Animation>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    private Animation AnimationRef = default!;
+
+    public void TriggerAnimation()
+    {
+        AnimationRef.TriggerAnimation();
+    }
+}

@@ -1,0 +1,38 @@
+﻿@using System.Timers
+
+<div class="@_animationStyles">
+    @ChildContent
+</div>
+
+@code {
+    private Timer _timer = default!;
+    private string _animationStyles = "";
+
+    [Parameter, EditorRequired]
+    public string Name { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public int Duration { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _timer = new Timer(Duration) { AutoReset = false };
+        _timer.Elapsed += ActivateAnimation;
+    }
+
+    public void TriggerAnimation()
+    {
+        _animationStyles = Name;
+        StateHasChanged();
+        _timer.Start();
+    }
+
+    private void ActivateAnimation(object? sender, ElapsedEventArgs e)
+    {
+        _animationStyles = "";
+        StateHasChanged();
+    }
+}

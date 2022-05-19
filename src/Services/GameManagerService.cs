@@ -108,7 +108,7 @@ namespace WordleBlazor.Services
             }
         }
 
-        public void CheckCurrentLineSolution()
+        public CheckLineResult CheckCurrentLineSolution()
         {
             if (GameState == GameState.Playing)
             {
@@ -124,13 +124,13 @@ namespace WordleBlazor.Services
                 if (currentLine.Length != solution.Length)
                 {
                     _toastNotificationService.ShowToast("No hay suficientes letras");
-                    return;
+                    return CheckLineResult.NotEnoughLetters;
                 }
 
                 if (!validWords.Contains(currentLine) && currentLine != solution)
                 {
                     _toastNotificationService.ShowToast("La palabra no existe");
-                    return;
+                    return CheckLineResult.WordDoesntExist;
                 }
 
                 for (int i = 0; i < currentLine.Length; i++)
@@ -148,11 +148,28 @@ namespace WordleBlazor.Services
                         if (foundIndexes.Contains(i))
                         {
                             _boardGrid[currentRow, i].State = BoardCellState.Correct;
-                            UsedKeys.TryAdd(currentLine[i], KeyState.Correct);
+
+                            if (!UsedKeys.TryAdd(currentLine[i], KeyState.Correct))
+                                UsedKeys[currentLine[i]] = KeyState.Correct;
                         }
                         else
                         {
-                            _boardGrid[currentRow, i].State = BoardCellState.IncorrectPosition;
+                            if (foundIndexes.Count > GetCurrentRowCorrectCellsFromValue(currentLine[i]).Length)
+                            {
+                                if (foundIndexes.Count > GetCurrentRowIncorrectPositionCellsFromValue(currentLine[i]).Length)
+                                {
+                                    _boardGrid[currentRow, i].State = BoardCellState.IncorrectPosition;
+                                }
+                                else
+                                {
+                                    _boardGrid[currentRow, i].State = BoardCellState.Wrong;
+                                }
+                            }
+                            else
+                            {
+                                _boardGrid[currentRow, i].State = BoardCellState.Wrong;
+                            }
+
                             UsedKeys.TryAdd(currentLine[i], KeyState.IncorrectPosition);
                         }
                     }
@@ -166,17 +183,29 @@ namespace WordleBlazor.Services
                 if (currentLine == solution)
                 {
                     _gameState = GameState.Win;
+                    return CheckLineResult.Correct;
                 }
                 else if (currentRow < RowSize - 1)
                 {
                     currentRow++;
                     currentColumn = 0;
+                    return CheckLineResult.WordExist;
                 }
                 else
                 {
                     _gameState = GameState.GameOver;
+                    return CheckLineResult.WordExist;
                 }
             }
+            else
+            {
+                return CheckLineResult.GameNotPlaying;
+            }
+        }
+
+        public int GetCurrentRow()
+        {
+            return currentRow;
         }
 
         private void PopulateBoard()
@@ -188,6 +217,22 @@ namespace WordleBlazor.Services
                     _boardGrid[i, j] = new BoardCell();
                 }
             }
+        }
+
+        private BoardCell[] GetCurrentRowCorrectCellsFromValue(char value)
+        {
+            return Enumerable.Range(0, _boardGrid.GetLength(1))
+                    .Select(x => _boardGrid[currentRow, x])
+                    .Where(x => x.Value == value && x.State == BoardCellState.Correct)
+                    .ToArray();
+        }
+
+        private BoardCell[] GetCurrentRowIncorrectPositionCellsFromValue(char value)
+        {
+            return Enumerable.Range(0, _boardGrid.GetLength(1))
+                    .Select(x => _boardGrid[currentRow, x])
+                    .Where(x => x.Value == value && x.State == BoardCellState.IncorrectPosition)
+                    .ToArray();
         }
     }
 }

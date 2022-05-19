@@ -1,0 +1,25 @@
+﻿@namespace WordleBlazor.Components
+
+<div class="flex justify-center items-center h-16 w-16 m-[3px] pb-1 bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass()">
+    @CellValue
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public char? CellValue { get; set; }
+
+    [Parameter, EditorRequired]
+    public BoardCellState CellState { get; set; }
+
+    private string GetBoardCellStateCssClass()
+    {
+        return CellState switch
+        {
+            BoardCellState.Typing => "text-black border-darkgray",
+            BoardCellState.Correct => "bg-green border-green",
+            BoardCellState.IncorrectPosition => "bg-yellow border-yellow",
+            BoardCellState.Wrong => "bg-darkgray border-darkgray",
+            _ => ""
+        };
+    }
+}

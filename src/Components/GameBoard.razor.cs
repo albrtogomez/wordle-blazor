@@ -21,6 +21,13 @@ namespace WordleBlazor.Components
         private bool ShowKeyboard => GameManagerService.GameState == GameState.NotStarted ||
                 GameManagerService.GameState == GameState.Playing;
 
+        private BoardLine boardLine0 = null!;
+        private BoardLine boardLine1 = null!;
+        private BoardLine boardLine2 = null!;
+        private BoardLine boardLine3 = null!;
+        private BoardLine boardLine4 = null!;
+        private BoardLine boardLine5 = null!;
+
         protected override async Task OnInitializedAsync()
         {
             await GameManagerService.LoadJsonSpanishDictionary();
@@ -33,16 +40,31 @@ namespace WordleBlazor.Components
             InvokeAsync(StateHasChanged);
         }
 
-        private string GetBoardCellStateCssClass(BoardCellState state)
+        public void TriggerShakeLineAnimation(int currentLine)
         {
-            return state switch
+            switch (currentLine)
             {
-                BoardCellState.Typing => "text-black border-darkgray",
-                BoardCellState.Correct => "bg-green border-green",
-                BoardCellState.IncorrectPosition => "bg-yellow border-yellow",
-                BoardCellState.Wrong => "bg-darkgray border-darkgray",
-                _ => ""
-            };
+                case 0:
+                    boardLine0.TriggerAnimation();
+                    break;
+                case 1:
+                    boardLine1.TriggerAnimation();
+                    break;
+                case 2:
+                    boardLine2.TriggerAnimation();
+                    break;
+                case 3:
+                    boardLine3.TriggerAnimation();
+                    break;
+                case 4:
+                    boardLine4.TriggerAnimation();
+                    break;
+                case 5:
+                    boardLine5.TriggerAnimation();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private string GetNextWordMessage()
