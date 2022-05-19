@@ -1,9 +1,9 @@
 ﻿@inherits BaseComponent
 
-<button class="@ButtonClasses" style="@Style" @attributes="UserAttributes" @onclick="OnClick">
+<button class="bg-green text-white font-semibold rounded cursor-pointer h-12 flex items-center px-5 @ButtonClasses" style="@Style" @attributes="UserAttributes" @onclick="OnClick">
     @if (!string.IsNullOrWhiteSpace(Icon))
     {
-        <i class="icon fa-solid fa-@Icon"/>
+        <i class="mr-2 mb-0.5 fa-solid fa-@Icon"/>
 
         @Text
     }

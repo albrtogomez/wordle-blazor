@@ -6,16 +6,20 @@ namespace WordleBlazor.Components
     public partial class GameBoard
     {
         private string? NextWordClasses => new CssBuilder()
-            .AddClass("next-word")
-            .AddClass("show", GameManagerService.GameState == GameState.Win ||
-                GameManagerService.GameState == GameState.GameOver)
+            .AddClass("flex", ShowNextWord)
+             .AddClass("hidden", !ShowNextWord)
             .Build();
 
         private string? KeyboardContainerClasses => new CssBuilder()
-            .AddClass("keyboard-container")
-            .AddClass("show", GameManagerService.GameState == GameState.NotStarted ||
-                GameManagerService.GameState == GameState.Playing)
+            .AddClass("flex", ShowKeyboard)
+            .AddClass("hidden", !ShowKeyboard)
             .Build();
+
+        private bool ShowNextWord => GameManagerService.GameState == GameState.Win ||
+                GameManagerService.GameState == GameState.GameOver;
+
+        private bool ShowKeyboard => GameManagerService.GameState == GameState.NotStarted ||
+                GameManagerService.GameState == GameState.Playing;
 
         protected override async Task OnInitializedAsync()
         {
@@ -33,10 +37,10 @@ namespace WordleBlazor.Components
         {
             return state switch
             {
-                BoardCellState.Typing => "board-typing-letter",
-                BoardCellState.Correct => "board-correct-letter",
-                BoardCellState.IncorrectPosition => "board-incorrectposition-letter",
-                BoardCellState.Wrong => "board-wrong-letter",
+                BoardCellState.Typing => "text-black border-darkgray",
+                BoardCellState.Correct => "bg-green border-green",
+                BoardCellState.IncorrectPosition => "bg-yellow border-yellow",
+                BoardCellState.Wrong => "bg-darkgray border-darkgray",
                 _ => ""
             };
         }

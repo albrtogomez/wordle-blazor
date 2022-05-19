@@ -1,12 +1,12 @@
 ﻿@inject GameManagerService GameManagerService
 
-<div class="board">
+<div class="grid grid-cols-5 my-2.5">
 
     @for (int i = 0; i < GameManagerService.RowSize; i++)
     {
         @for (int j = 0; j < GameManagerService.ColumnSize; j++)
         {
-            <div class="board-box @GetBoardCellStateCssClass(GameManagerService.BoardGrid[i, j].State)">
+            <div class="flex justify-center items-center h-16 w-16 m-[3px] bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass(GameManagerService.BoardGrid[i, j].State)">
                 @GameManagerService.BoardGrid[i, j].Value
             </div>
         }
@@ -14,8 +14,8 @@
 
 </div>
 
-<div class="@NextWordClasses">
-    <h2>@GetNextWordMessage()</h2>
+<div class="flex-col items-center justify-start h-[164px] mb-[300px] @NextWordClasses">
+    <p class="text-2xl mb-4 font-bold">@GetNextWordMessage()</p>
     <Button Text="JUGAR MÁS" Icon="play" OnClick="@PlayAgain" />
 </div>
 

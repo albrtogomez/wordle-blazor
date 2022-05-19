@@ -14,6 +14,48 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                colors: {
+                    transparent: 'transparent',
+                    current: 'currentColor',
+                    'white': '#ffffff',
+                    'black': '#000000',
+                    'green': '#6aaa64',
+                    'lightgray': '#d3d3d3',
+                    'middlegray': '#d3d6da',
+                    'darkgray': '#787c7e',
+                    'yellow': '#c9b458',
+                    'keyhover': '#e5e6e9',
+                    'keyactive': '#e0e6ec',
+                    'keyactiveborder': '#bbdaf4',
+                    'semitransparent': '#333',
+                },
+                extend: {
+                    transitionProperty: {
+                        'keyactive': 'background-color, border-color',
+                    },
+                    animation: {
+                        'fade': 'fadein 0.5s, fadeout 0.5s 2.5s',
+                    },
+                    keyframes: {
+                        fadein: {
+                            from: { opacity: 0 },
+                            to: { opacity: 1 },
+                        },
+                        fadeout: {
+                            from: { opacity: 1 },
+                            to: { opacity: 0 },
+                        },
+                    },
+                },
+            }
+        }
+    </script>
 </head>
 
 <body>

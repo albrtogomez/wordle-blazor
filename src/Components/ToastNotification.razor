@@ -1,6 +1,11 @@
 ﻿@inject ToastNotificationService ToastNotificationService
 @implements IDisposable
 
-<div class="toast-message @(IsVisible ? "show" : "")">
+<div class="fixed min-w-[250px] -ml-[140px]
+    bg-semitransparent text-white text-center border-sm
+    p-4 z-10 left-1/2 top-[60px] 
+    @(IsVisible ? "visible animate-fade" : "invisible")">
+
     @Message
+
 </div>

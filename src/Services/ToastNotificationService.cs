@@ -22,12 +22,7 @@
                 countdown.AutoReset = false;
             }
 
-            if (countdown.Enabled)
-            {
-                countdown.Stop();
-                countdown.Start();
-            }
-            else
+            if (!countdown.Enabled)
             {
                 countdown.Start();
             }

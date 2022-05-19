@@ -22,8 +22,8 @@ namespace WordleBlazor.Components
 {
     public partial class ToastNotification
     {
-        protected string Message { get; set; } = "";
-        protected bool IsVisible { get; set; }
+        private string Message { get; set; } = "";
+        private bool IsVisible { get; set; }
 
         protected override void OnInitialized()
         {

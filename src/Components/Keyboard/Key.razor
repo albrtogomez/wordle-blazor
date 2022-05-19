@@ -1,0 +1,14 @@
+﻿@namespace WordleBlazor.Components
+@inject GameManagerService GameManagerService
+
+<div class="bg-middlegray h-[52px] 
+    flex justify-center items-center
+    text-center font-bold text-[15px]
+    rounded-md border-transparent
+    transition-keyactive duration-150
+    hover:bg-keyhober cursor-pointer
+    active:bg-keyactive active:border-[3px] active:border-keyactiveborder
+    @KeyClasses 
+    @GetKeyStateClass()" 
+    @onclick="KeyPressed">@GetKeyText()
+</div>
