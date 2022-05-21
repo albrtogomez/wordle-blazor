@@ -54,8 +54,14 @@ namespace WordleBlazor.Components
             {
                 var result = GameManagerService.CheckCurrentLineSolution();
 
+                int currentRow = GameManagerService.GetCurrentRow();
+
                 if (result == CheckLineResult.NotEnoughLetters || result == CheckLineResult.WordDoesntExist)
-                    AncestorComponent?.TriggerShakeLineAnimation(GameManagerService.GetCurrentRow());
+                    AncestorComponent?.TriggerShakeLineAnimation(currentRow);
+                else if (result == CheckLineResult.WordExist)
+                    AncestorComponent?.TriggerFlipAnimation(currentRow > 0 ? currentRow - 1 : 0);
+                else if (result == CheckLineResult.Correct)
+                    AncestorComponent?.TriggerFlipAnimation(currentRow);
             }
             else if (KeyType == KeyType.Remove)
             {

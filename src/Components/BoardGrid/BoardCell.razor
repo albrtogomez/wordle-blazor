@@ -1,15 +1,43 @@
 ﻿@namespace WordleBlazor.Components
 
-<div class="flex justify-center items-center h-16 w-16 m-[3px] pb-1 bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass()">
-    @CellValue
+<div class="flip-container">
+	<div class="flipper @TriggerFlipClass" style="transition-delay: @FlipDelay">
+		<div class="front">
+			<div class="flex justify-center items-center h-16 w-16 pb-1 bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass()">
+                @CellValue
+            </div>
+		</div>
+		<div class="back">
+			<div class="flex justify-center items-center h-16 w-16 pb-1 bg-white text-white text-3xl font-bold border-2 border-middlegray @GetBoardCellStateCssClass()">
+                @CellValue
+            </div>
+		</div>
+	</div>
 </div>
 
+
+
 @code {
+    private string TriggerFlipClass = "";
+
+    private string FlipDelay => LinePosition > 0 ? $"{LinePosition * 200}ms" : "";
+
     [Parameter, EditorRequired]
     public char? CellValue { get; set; }
 
     [Parameter, EditorRequired]
     public BoardCellState CellState { get; set; }
+
+    [Parameter]
+    public int LinePosition { get; set; }
+
+    public void TriggerFlip()
+    {
+        if (string.IsNullOrEmpty(TriggerFlipClass))
+            TriggerFlipClass = "doflip";
+        else
+            TriggerFlipClass = "";
+    }
 
     private string GetBoardCellStateCssClass()
     {

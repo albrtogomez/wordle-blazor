@@ -38,9 +38,10 @@
 - [x] Add play again button when player win or lose the game
 - [x] Pick new solution every day
 - [x] Switch to Tailwind CSS
+- [x] Add CSS Animations to enhance visual experience
+- [ ] Find bettter way to trigger animations (it now works executing child methods with @ref)
 - [ ] Capture player keyboard input
 - [ ] Add new unlimited mode with random word each game
-- [ ] Add CSS Animations to enhance visual experience
 - [ ] Add English localization (multi-lenguage) with selector
 - [ ] Add state management to keep current game and stats between sessions
 - [ ] Create player stats page from previous games
