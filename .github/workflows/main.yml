@@ -24,6 +24,14 @@ jobs:
     - name: Publish .NET Core Project
       run: dotnet publish src/WordleBlazor.csproj -c Release -o release --nologo
       
+    # changes the base-tag in index.html from '/' to 'WordleBlazor' to match GitHub Pages repository subdirectory
+    - name: Change base-tag in index.html from / to WordleBlazor
+      run: sed -i 's/<base href="\/" \/>/<base href="\/WordleBlazor\/" \/>/g' release/wwwroot/index.html
+      
+    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
+      
     - name: GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v1.5.1
