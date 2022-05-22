@@ -25,7 +25,6 @@
 * [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 * [Tailwind CSS](https://tailwindcss.com/)
 
-
 <!-- Features -->
 ## Features
 
@@ -39,8 +38,9 @@
 - [x] Pick new solution every day
 - [x] Switch to Tailwind CSS
 - [x] Add CSS Animations to enhance visual experience
+- [x] Capture player keyboard input
 - [ ] Find bettter way to trigger animations (it now works executing child methods with @ref)
-- [ ] Capture player keyboard input
+- [ ] Create fullscreen modal to show help, statistics, configuration, etc
 - [ ] Add new unlimited mode with random word each game
 - [ ] Add English localization (multi-lenguage) with selector
 - [ ] Add state management to keep current game and stats between sessions

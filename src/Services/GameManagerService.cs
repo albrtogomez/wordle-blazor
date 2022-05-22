@@ -154,9 +154,9 @@ namespace WordleBlazor.Services
                         }
                         else
                         {
-                            if (foundIndexes.Count > GetCurrentRowCorrectCellsFromValue(currentLine[i]).Length)
+                            if (foundIndexes.Count > GetCurrentRowCorrectCellsFromValue(foundIndexes, currentLine[i]))
                             {
-                                if (foundIndexes.Count > GetCurrentRowIncorrectPositionCellsFromValue(currentLine[i]).Length)
+                                if (foundIndexes.Count > GetCurrentRowIncorrectPositionCellsFromValue(currentLine[i]))
                                 {
                                     _boardGrid[currentRow, i].State = BoardCellState.IncorrectPosition;
                                 }
@@ -219,20 +219,29 @@ namespace WordleBlazor.Services
             }
         }
 
-        private BoardCell[] GetCurrentRowCorrectCellsFromValue(char value)
+        private int GetCurrentRowCorrectCellsFromValue(List<int> foundIndexes, char value)
         {
-            return Enumerable.Range(0, _boardGrid.GetLength(1))
-                    .Select(x => _boardGrid[currentRow, x])
-                    .Where(x => x.Value == value && x.State == BoardCellState.Correct)
-                    .ToArray();
+            var valueCells = Enumerable.Range(0, _boardGrid.GetLength(1))
+                .Select(x => _boardGrid[currentRow, x])
+                .ToArray();
+
+            int count = 0;
+            
+            for (int i = 0; i < valueCells.Length; i++)
+            {
+                if (valueCells[i].Value == value && foundIndexes.Contains(i))
+                    count++;
+            }
+
+            return count;
         }
 
-        private BoardCell[] GetCurrentRowIncorrectPositionCellsFromValue(char value)
+        private int GetCurrentRowIncorrectPositionCellsFromValue(char value)
         {
             return Enumerable.Range(0, _boardGrid.GetLength(1))
                     .Select(x => _boardGrid[currentRow, x])
                     .Where(x => x.Value == value && x.State == BoardCellState.IncorrectPosition)
-                    .ToArray();
+                    .ToArray().Length;
         }
     }
 }

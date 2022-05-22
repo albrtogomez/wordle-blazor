@@ -20,9 +20,9 @@ namespace WordleBlazor.Components
             .AddClass("bg-middlegray h-[52px] cursor-pointer")
             .AddClass("flex justify-center items-center")
             .AddClass("text-center font-bold text-[15px]")
-            .AddClass("rounded-md border-transparent")
+            .AddClass("rounded-md border-transparent pb-0.5")
             .AddClass("transition-keyactive duration-150")
-            .AddClass("hover:bg-keyhober active:bg-keyactive active:border-[3px] active:border-keyactiveborder")
+            .AddClass("hover:bg-keyhover active:bg-keyactive active:border-[3px] active:border-keyactiveborder")
             .AddClass("w-[44px]", KeyType == KeyType.Letter)
             .AddClass("w-[66px]", KeyType != KeyType.Letter).Build();
 
@@ -44,7 +44,7 @@ namespace WordleBlazor.Components
             };
         }
 
-        private void KeyPressed()
+        private void KeyClicked()
         {
             if (KeyType == KeyType.Letter)
             {

@@ -5,22 +5,6 @@ namespace WordleBlazor.Components
 {
     public partial class GameBoard
     {
-        private string? NextWordClasses => new CssBuilder()
-            .AddClass("flex", ShowNextWord)
-             .AddClass("hidden", !ShowNextWord)
-            .Build();
-
-        private string? KeyboardContainerClasses => new CssBuilder()
-            .AddClass("flex", ShowKeyboard)
-            .AddClass("hidden", !ShowKeyboard)
-            .Build();
-
-        private bool ShowNextWord => GameManagerService.GameState == GameState.Win ||
-                GameManagerService.GameState == GameState.GameOver;
-
-        private bool ShowKeyboard => GameManagerService.GameState == GameState.NotStarted ||
-                GameManagerService.GameState == GameState.Playing;
-
         private BoardLine boardLine0 = null!;
         private BoardLine boardLine1 = null!;
         private BoardLine boardLine2 = null!;
@@ -62,7 +46,24 @@ namespace WordleBlazor.Components
         private BoardCell boardCell51 = null!;
         private BoardCell boardCell52 = null!;
         private BoardCell boardCell53 = null!;
+
+
         private BoardCell boardCell54 = null!;
+        private string? NextWordClasses => new CssBuilder()
+            .AddClass("flex", ShowNextWord)
+             .AddClass("hidden", !ShowNextWord)
+            .Build();
+
+        private string? KeyboardContainerClasses => new CssBuilder()
+            .AddClass("flex", ShowKeyboard)
+            .AddClass("hidden", !ShowKeyboard)
+            .Build();
+
+        private bool ShowNextWord => GameManagerService.GameState == GameState.Win ||
+                GameManagerService.GameState == GameState.GameOver;
+
+        private bool ShowKeyboard => GameManagerService.GameState == GameState.NotStarted ||
+                GameManagerService.GameState == GameState.Playing;
 
         protected override async Task OnInitializedAsync()
         {
