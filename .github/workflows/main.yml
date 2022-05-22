@@ -25,8 +25,8 @@ jobs:
       run: dotnet publish src/WordleBlazor.csproj -c Release -o release --nologo
       
     # changes the base-tag in index.html from '/' to 'WordleBlazor' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to WordleBlazor
-      run: sed -i 's/<base href="\/" \/>/<base href="\/WordleBlazor\/" \/>/g' release/wwwroot/index.html
+    - name: Change base-tag in index.html from / to wordle-blazor
+      run: sed -i 's/<base href="\/" \/>/<base href="\/wordle-blazor\/" \/>/g' release/wwwroot/index.html
       
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
