@@ -39,7 +39,7 @@
 - [x] Switch to Tailwind CSS
 - [x] Add CSS Animations to enhance visual experience
 - [x] Capture player keyboard input
-- [ ] Find bettter way to trigger animations (it now works executing child methods with @ref)
+- [x] Component's animations triggered by subscribing GameManagerService events
 - [ ] Create fullscreen modal to show help, statistics, configuration, etc
 - [ ] Add new unlimited mode with random word each game
 - [ ] Add English localization (multi-lenguage) with selector

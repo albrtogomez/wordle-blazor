@@ -47,6 +47,7 @@ namespace WordleBlazor.Components
         public void Dispose()
         {
             ToastNotificationService.OnShow -= ShowToast;
+            ToastNotificationService.OnHide -= HideToast;
         }
     }
 }

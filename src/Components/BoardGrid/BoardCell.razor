@@ -1,4 +1,6 @@
 ﻿@namespace WordleBlazor.Components
+@inject GameManagerService GameManagerService
+@implements IDisposable
 
 <div class="flip-container">
 	<div class="flipper @TriggerFlipClass" style="transition-delay: @FlipDelay">

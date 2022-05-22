@@ -1,4 +1,6 @@
 ﻿@namespace WordleBlazor.Components
+@inject GameManagerService GameManagerService
+@implements IDisposable
 
 <Animation Name="animate-shake" Duration="1000" @ref="AnimationRef">
     <div class="grid grid-cols-5">
@@ -8,12 +10,26 @@
 
 @code {
     [Parameter, EditorRequired]
+    public int RowIndex { get; set; }
+
+    [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; } = default!;
 
     private Animation AnimationRef = default!;
 
-    public void TriggerAnimation()
+    protected override void OnInitialized()
     {
-        AnimationRef.TriggerAnimation();
+        GameManagerService.OnBoardLineWrongSolution += TriggerAnimation;
+    }
+    
+    public void Dispose()
+    {
+        GameManagerService.OnBoardLineWrongSolution -= TriggerAnimation;
+    }
+
+    private void TriggerAnimation(int currentRow)
+    {
+        if (currentRow == RowIndex)
+            AnimationRef.TriggerAnimation();
     }
 }

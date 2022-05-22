@@ -10,10 +10,16 @@ namespace WordleBlazor.Services
         public static readonly int RowSize = 6;
         public static readonly int ColumnSize = 5;
 
+        public event Action<int> OnBoardLineWrongSolution = default!;
+        public event Action<int> OnCurrentLineCheckedSolution = default!;
+
         private BoardCell[,] _boardGrid;
         public BoardCell[,] BoardGrid { get => _boardGrid; }
 
         public Dictionary<char, KeyState> UsedKeys { get; set; } = new Dictionary<char, KeyState>();
+
+        public GameState _gameState;
+        public GameState GameState { get => _gameState; }
 
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
@@ -22,9 +28,6 @@ namespace WordleBlazor.Services
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
-
-        public GameState _gameState;
-        public GameState GameState { get => _gameState; }
 
         public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService)
         {
@@ -52,7 +55,6 @@ namespace WordleBlazor.Services
                 solution = solutions[DateTime.Now.DayOfYear];
             }
         }
-
 
         public void StartGame()
         {
@@ -108,7 +110,7 @@ namespace WordleBlazor.Services
             }
         }
 
-        public CheckLineResult CheckCurrentLineSolution()
+        public void CheckCurrentLineSolution()
         {
             if (GameState == GameState.Playing)
             {
@@ -124,13 +126,15 @@ namespace WordleBlazor.Services
                 if (currentLine.Length != solution.Length)
                 {
                     _toastNotificationService.ShowToast("No hay suficientes letras");
-                    return CheckLineResult.NotEnoughLetters;
+                    OnBoardLineWrongSolution.Invoke(currentRow);
+                    return;
                 }
 
                 if (!validWords.Contains(currentLine) && currentLine != solution)
                 {
                     _toastNotificationService.ShowToast("La palabra no existe");
-                    return CheckLineResult.WordDoesntExist;
+                    OnBoardLineWrongSolution.Invoke(currentRow);
+                    return;
                 }
 
                 for (int i = 0; i < currentLine.Length; i++)
@@ -180,26 +184,21 @@ namespace WordleBlazor.Services
                     }
                 }
 
+                OnCurrentLineCheckedSolution.Invoke(currentRow);
+
                 if (currentLine == solution)
                 {
                     _gameState = GameState.Win;
-                    return CheckLineResult.Correct;
                 }
                 else if (currentRow < RowSize - 1)
                 {
                     currentRow++;
                     currentColumn = 0;
-                    return CheckLineResult.WordExist;
                 }
                 else
                 {
                     _gameState = GameState.GameOver;
-                    return CheckLineResult.WordExist;
                 }
-            }
-            else
-            {
-                return CheckLineResult.GameNotPlaying;
             }
         }
 

@@ -9,13 +9,13 @@
         <HeaderBar />
     </header>
 
-    <ToastNotification/>
+    <ToastNotification />
 
-    <GameBoard @ref="gameBoard"/>
+    <GameBoard @ref="gameBoard" />
 </div>
 
 @code {
-    private readonly List<string> validKeys = new List<string>()
+    private readonly IReadOnlyList<string> validKeys = new List<string>()
     {
         "ENTER", "BACKSPACE",
         "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
@@ -34,16 +34,7 @@
         {
             if (key == "ENTER")
             {
-                var result = GameManagerService.CheckCurrentLineSolution();
-
-                int currentRow = GameManagerService.GetCurrentRow();
-
-                if (result == CheckLineResult.NotEnoughLetters || result == CheckLineResult.WordDoesntExist)
-                    gameBoard?.TriggerShakeLineAnimation(currentRow);
-                else if (result == CheckLineResult.WordExist)
-                    gameBoard?.TriggerFlipAnimation(currentRow > 0 ? currentRow - 1 : 0);
-                else if (result == CheckLineResult.Correct)
-                    gameBoard?.TriggerFlipAnimation(currentRow);
+                GameManagerService.CheckCurrentLineSolution();
             }
             else if (key == "BACKSPACE")
             {

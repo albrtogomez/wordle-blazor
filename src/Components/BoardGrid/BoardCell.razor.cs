@@ -6,7 +6,8 @@ namespace WordleBlazor.Components
     public partial class BoardCell
     {
         private string TriggerFlipClass = "";
-        private string FlipDelay => LinePosition > 0 ? $"{LinePosition * 200}ms" : "";
+        private string FlipDelay => ColumnIndex > 0 ? $"{ColumnIndex * 200}ms" : "";
+
         [Parameter, EditorRequired]
         public char? CellValue { get; set; }
 
@@ -27,15 +28,31 @@ namespace WordleBlazor.Components
             }
         }
 
-        [Parameter]
-        public int LinePosition { get; set; }
+        [Parameter, EditorRequired]
+        public int RowIndex { get; set; }
 
-        public void TriggerFlip()
+        [Parameter, EditorRequired]
+        public int ColumnIndex { get; set; }
+
+        protected override void OnInitialized()
         {
-            if (string.IsNullOrEmpty(TriggerFlipClass))
-                TriggerFlipClass = "doflip";
-            else
-                TriggerFlipClass = "";
+            GameManagerService.OnCurrentLineCheckedSolution += TriggerFlip;
+        }
+
+        public void Dispose()
+        {
+            GameManagerService.OnCurrentLineCheckedSolution -= TriggerFlip;
+        }
+
+        private void TriggerFlip(int currentRow)
+        {
+            if (currentRow == RowIndex)
+            {
+                if (string.IsNullOrEmpty(TriggerFlipClass))
+                    TriggerFlipClass = "doflip";
+                else
+                    TriggerFlipClass = "";
+            }
         }
 
         private string GetFrontBoardCellStateCssClass()
