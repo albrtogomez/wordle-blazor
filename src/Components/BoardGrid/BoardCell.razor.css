@@ -1,13 +1,11 @@
 ﻿/* entire container, keeps perspective */
 .flip-container {
     perspective: 1000px;
-    -webkit-perspective: 1000px;
 }
 
 /* flip the pane */
 .doflip {
     transform: rotateX(180deg);
-    -webkit-transform: rotateX(180deg);
 }
 
 .flip-container, .front, .back {
@@ -20,11 +18,8 @@
 .flipper {
     position: relative;
     transition: 0.6s;
-    -webkit-transition: 0.6s;
     transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
     transform-origin: 100% 34px; /* half of height plus margin */
-    -webkit-transform-origin: 100% 34px;
 }
 
 /* hide back of pane during swap */
@@ -38,11 +33,9 @@
 /* front pane, placed above back */
 .front {
     transform: rotateX(0deg);
-    -webkit-transform: rotateX(0deg);
 }
 
 /* back, initially hidden pane */
 .back {
     transform: rotateX(180deg);
-    -webkit-transform: rotateX(180deg);
 }

@@ -37,9 +37,9 @@ namespace WordleBlazor.Components
 
             return keyStatus.Value switch
             {
-                KeyState.Correct => "bg-greenkey border-green text-white",
-                KeyState.IncorrectPosition => "bg-yellow border-yellow text-white",
-                KeyState.Wrong => "bg-darkgray border-darkgray text-white",
+                KeyState.Correct => "bg-greenkey border-green text-white hover:bg-greenkeyhover",
+                KeyState.IncorrectPosition => "bg-yellow border-yellow text-white hover:bg-yellowhover",
+                KeyState.Wrong => "bg-darkgray border-darkgray text-white hover:bg-darkgrayhover",
                 _ => ""
             };
         }
