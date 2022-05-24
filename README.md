@@ -1,4 +1,4 @@
-<h1 align="center">Wordle Blazor</h1>
+<h1 align="center">🟩 Wordle Blazor 🟨</h1>
 
   <p align="center">
     A Wordle clone built with Blazor WASM
