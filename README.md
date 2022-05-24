@@ -1,7 +1,7 @@
 <h1 align="center">Wordle Blazor</h1>
 
   <p align="center">
-    Another Wordle clone but using Blazor WebAssembly
+    A Wordle clone built with Blazor WebAssembly
     <br />
     <br />
     <a href="http://albrtogomez.github.io/wordle-blazor">View Demo</a>
@@ -17,7 +17,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-(coming soon)
+Just another Wordle clone created with Blazor WASM with the sole purpose of experimenting and learning.
 
 ### Built With
 
@@ -25,35 +25,39 @@
 * [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 * [Tailwind CSS](https://tailwindcss.com/)
 
-<!-- Features -->
-## Features
+### Javascript Free
+
+My only rule from the beginning of this project is not to write a single line in Javascript. All features should be 100% Blazor.
+
+<!-- ROADMAP -->
+## Development Roadmap
 
 - [x] Replicate visual style of original Wordle with HTML/CSS
 - [x] Game manager service with all the game logic
 - [x] Spanish words dataset
 - [x] Basic game is playable
-- [x] Give feedback with alert messages (win, game over, incorrect word, ...)
-- [x] Style keyboard keys to know the state of each used letter
+- [x] Give feedback with alert messages (win, game over, wrong word, ...)
+- [x] Add keyboard styles to show the state of each key
 - [x] Add play again button when player win or lose the game
-- [x] Pick new solution every day
-- [x] Switch to Tailwind CSS
+- [x] Pick a new word every day
+- [x] Show the time left for the next word when the game is over
+- [x] Switch all CSS to Tailwind CSS
 - [x] Add CSS Animations to enhance visual experience
 - [x] Capture player keyboard input
-- [x] Component's animations triggered by subscribing GameManagerService events
-- [ ] Create fullscreen modal to show help, statistics, configuration, etc
+- [x] Add improved loading page with spinner
+- [x] Deploy to GitHub Pages
+- [ ] Create modal to show help, statistics, configuration, etc
 - [ ] Add new unlimited mode with random word each game
 - [ ] Add English localization (multi-lenguage) with selector
-- [ ] Add state management to keep current game and stats between sessions
+- [ ] Add local storage state management to keep current game and stats between sessions
 - [ ] Create player stats page from previous games
-- [ ] Improve initial loading layout
 - [ ] Dark mode with selector
-- [ ] Deploy to GitHub Pages
 - [ ] Create Hybrid Blazor App
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+If you have a suggestion that would make this better, please fork the repo and create a pull request or simply open an issue with your thoughts. I will be very grateful for any comment.
 Don't forget to give the project a star! Thanks again!
 
 <!-- LICENSE -->
