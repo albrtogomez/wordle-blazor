@@ -1,7 +1,7 @@
 <h1 align="center">Wordle Blazor</h1>
 
   <p align="center">
-    A Wordle clone built with Blazor WebAssembly
+    A Wordle clone built with Blazor WASM
     <br />
     <br />
     <a href="http://albrtogomez.github.io/wordle-blazor">View Demo</a>
@@ -17,7 +17,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Just another Wordle clone created with Blazor WASM with the sole purpose of experimenting and learning.
+Just another Wordle clone created with Blazor with the sole purpose of experimenting and learning.
 
 ### Built With
 
@@ -28,6 +28,10 @@ Just another Wordle clone created with Blazor WASM with the sole purpose of expe
 ### Javascript Free
 
 My only rule from the beginning of this project is not to write a single line in Javascript. All features should be 100% Blazor.
+
+### Playable Demo
+
+🚀 [Click Here (hosted in GitHub Pages)](http://albrtogomez.github.io/wordle-blazor)
 
 <!-- ROADMAP -->
 ## Development Roadmap
@@ -59,11 +63,6 @@ My only rule from the beginning of this project is not to write a single line in
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request or simply open an issue with your thoughts. I will be very grateful for any comment.
 Don't forget to give the project a star! Thanks again!
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 ## Contact
