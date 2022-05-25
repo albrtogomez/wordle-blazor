@@ -36,6 +36,7 @@ namespace WordleBlazor.Components
 
             GameManagerService.StartGame();
         }
+
         public void NotifyChange()
         {
             InvokeAsync(StateHasChanged);

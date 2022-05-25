@@ -5,59 +5,16 @@
 <PageTitle>Wordle</PageTitle>
 
 <div class="flex flex-col justify-between items-center h-full w-full outline-0" @ref="mainDiv" tabindex="0" @onkeydown="KeyDown">
-    <header>
-        <HeaderBar />
-    </header>
+    <HeaderBar AncestorComponent="this" />
 
     <ToastNotification />
 
     <GameBoard @ref="gameBoard" />
 
-    <Modal Visible="false">
-        <Stats />
-    </Modal>
+    @if (showStats)
+    {
+        <Modal OnCloseCallback="@CloseStats">
+            <Stats />
+        </Modal>
+    }
 </div>
-
-@code {
-    private readonly IReadOnlyList<string> validKeys = new List<string>()
-    {
-        "ENTER", "BACKSPACE",
-        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
-        "A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ",
-        "Z", "X", "C", "V", "B", "N", "M",
-    };
-
-    private ElementReference mainDiv;
-    private GameBoard? gameBoard;
-
-    private void KeyDown(KeyboardEventArgs e)
-    {
-        string key = e.Key.ToUpper();
-
-        if (GameManagerService.GameState == GameState.Playing && validKeys.Contains(key))
-        {
-            if (key == "ENTER")
-            {
-                GameManagerService.CheckCurrentLineSolution();
-            }
-            else if (key == "BACKSPACE")
-            {
-                GameManagerService.RemoveLastValue();
-            }
-            else
-            {
-                GameManagerService.EnterNextValue(Convert.ToChar(key));
-            }
-
-            gameBoard?.NotifyChange();
-        }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await mainDiv.FocusAsync();
-        }
-    }
-}

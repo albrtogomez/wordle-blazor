@@ -8,11 +8,12 @@
     </div>
 
     <div class="flex-1 flex justify-end mr-4 mt-0.5">
-        <img class="mr-2 cursor-pointer" src="images/chart.svg" alt="Statistics">
+        <img class="mr-2 cursor-pointer" src="images/chart.svg" alt="Statistics" @onclick="() => AncestorComponent?.ShowStats()">
         <img class="cursor-pointer" src="images/cog.svg" alt="Config">
     </div>
 </div>
 
 @code {
-
+    [Parameter, EditorRequired]
+    public Wordle? AncestorComponent { get; set; }
 }
