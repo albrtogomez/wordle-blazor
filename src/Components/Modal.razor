@@ -1,0 +1,19 @@
+﻿@inherits BaseComponent
+
+<div class="fixed h-screen w-screen left-1/2 -translate-x-1/2 bg-whitetransparent max-w-[480px] @ModalClasses" style="@Style" @attributes="UserAttributes">
+
+    <div class="flex flex-col h-full justify-center">
+
+        <div class="relative mx-2 mb-[150px] bg-white rounded-md shadow-[0_0_25px_-5px_rgba(0,0,0,0.2)] h-[350px]">
+
+            @ChildContent
+
+            <div class="absolute top-0 right-0 p-2 m-3 rounded cursor-pointer hover:bg-closehover">
+                <img src="images/close.svg" alt="Close">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
