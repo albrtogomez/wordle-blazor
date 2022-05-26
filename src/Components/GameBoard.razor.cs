@@ -34,7 +34,7 @@ namespace WordleBlazor.Components
             currentTimeUpdaterTimer.Elapsed += UpdateCurrentTime;
             currentTimeUpdaterTimer.Start();
 
-            GameManagerService.StartGame();
+            await GameManagerService.StartGame();
         }
 
         public void NotifyChange()

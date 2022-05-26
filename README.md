@@ -24,6 +24,7 @@ Just another Wordle clone created with Blazor with the sole purpose of experimen
 * [.NET 6](https://docs.microsoft.com/es-es/dotnet/core/whats-new/dotnet-6)
 * [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 * [Tailwind CSS](https://tailwindcss.com/)
+* [Blazored LocalStorage](https://github.com/Blazored/LocalStorage)
 
 ### Javascript Free
 
@@ -50,13 +51,10 @@ My only rule from the beginning of this project is not to write a single line in
 - [x] Capture player keyboard input
 - [x] Add improved loading page with spinner
 - [x] Deploy to GitHub Pages
-- [ ] Create modal to show help, statistics, configuration, etc
-- [ ] Add new unlimited mode with random word each game
+- [x] Create generic modal to show stuff like help, statistics, configuration, etc
+- [x] Add local storage state management to keep current game and stats between sessions
 - [ ] Add English localization (multi-lenguage) with selector
-- [ ] Add local storage state management to keep current game and stats between sessions
 - [ ] Create player stats page from previous games
-- [ ] Dark mode with selector
-- [ ] Create Hybrid Blazor App
 
 <!-- CONTRIBUTING -->
 ## Contributing

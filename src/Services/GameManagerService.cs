@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using Blazored.LocalStorage;
+using System.Net.Http.Json;
 using System.Text;
 using WordleBlazor.Models;
 using WordleBlazor.Models.Enums;
@@ -16,25 +17,29 @@ namespace WordleBlazor.Services
         private BoardCell[,] _boardGrid;
         public BoardCell[,] BoardGrid { get => _boardGrid; }
 
-        public Dictionary<char, KeyState> UsedKeys { get; set; } = new Dictionary<char, KeyState>();
+        private Dictionary<char, KeyState> _usedKeys;
+        public Dictionary<char, KeyState> UsedKeys { get => _usedKeys; }
 
         public GameState _gameState;
         public GameState GameState { get => _gameState; }
 
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
+        private readonly ILocalStorageService _localStorage;
 
         private string solution = "";
+        private DateTime gameStarted;
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
 
-        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService)
+        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
             _toastNotificationService = toastNotificationService;
-
+            _localStorage = localStorage;
             _boardGrid = new BoardCell[RowSize, ColumnSize];
+            _usedKeys = new Dictionary<char, KeyState>();
 
             PopulateBoard();
         }
@@ -52,19 +57,22 @@ namespace WordleBlazor.Services
 
             if (solutions != null)
             {
-                solution = solutions[DateTime.Now.DayOfYear];
+                var currentTime = DateTime.Now;
+                solution = solutions[currentTime.DayOfYear];
+                gameStarted = currentTime;
             }
         }
 
-        public void StartGame()
+        public async Task StartGame()
         {
             _gameState = GameState.Playing;
+            await LoadGameStateFromLocalStorage();
         }
 
         public void Reset()
         {
             _boardGrid = new BoardCell[RowSize, ColumnSize];
-            UsedKeys = new Dictionary<char, KeyState>();
+            _usedKeys = new Dictionary<char, KeyState>();
 
             PopulateBoard();
 
@@ -153,8 +161,8 @@ namespace WordleBlazor.Services
                         {
                             _boardGrid[currentRow, i].State = BoardCellState.Correct;
 
-                            if (!UsedKeys.TryAdd(currentLine[i], KeyState.Correct))
-                                UsedKeys[currentLine[i]] = KeyState.Correct;
+                            if (!_usedKeys.TryAdd(currentLine[i], KeyState.Correct))
+                                _usedKeys[currentLine[i]] = KeyState.Correct;
                         }
                         else
                         {
@@ -174,13 +182,13 @@ namespace WordleBlazor.Services
                                 _boardGrid[currentRow, i].State = BoardCellState.Wrong;
                             }
 
-                            UsedKeys.TryAdd(currentLine[i], KeyState.IncorrectPosition);
+                            _usedKeys.TryAdd(currentLine[i], KeyState.IncorrectPosition);
                         }
                     }
                     else
                     {
                         _boardGrid[currentRow, i].State = BoardCellState.Wrong;
-                        UsedKeys.TryAdd(currentLine[i], KeyState.Wrong);
+                        _usedKeys.TryAdd(currentLine[i], KeyState.Wrong);
                     }
                 }
 
@@ -199,6 +207,8 @@ namespace WordleBlazor.Services
                 {
                     _gameState = GameState.GameOver;
                 }
+
+                SaveCurrentGameStateToLocalStorage();
             }
         }
 
@@ -241,6 +251,72 @@ namespace WordleBlazor.Services
                     .Select(x => _boardGrid[currentRow, x])
                     .Where(x => x.Value == value && x.State == BoardCellState.IncorrectPosition)
                     .ToArray().Length;
+        }
+
+        private async Task LoadGameStateFromLocalStorage()
+        {
+            var today = DateTime.Now.Date;
+
+            DateTime lastDayPlayed = await _localStorage.GetItemAsync<DateTime>("LastDayPlayed");
+
+            if (today == lastDayPlayed)
+            {
+                var board = await _localStorage.GetItemAsync<List<string>>(nameof(BoardGrid));
+                if (board != null)
+                {
+                    SetBoardGridWords(board);
+                }
+            }
+            else
+            {
+                await _localStorage.SetItemAsync("LastDayPlayed", gameStarted.Date);
+                await _localStorage.RemoveItemAsync(nameof(BoardGrid));
+            }
+        }
+
+        private async Task SaveCurrentGameStateToLocalStorage()
+        {
+            await _localStorage.SetItemAsync(nameof(BoardGrid), GetBoardGridWords());
+        }
+
+        private List<string> GetBoardGridWords()
+        {
+            var wordList = new List<string>();
+
+            for (int i = 0; i <= currentRow; i++)
+            {
+                if (_boardGrid[i, 0].State != BoardCellState.Empty && _boardGrid[i, 0].State != BoardCellState.Typing)
+                {
+                    string word = "";
+
+                    for (int j = 0; j < ColumnSize; j++)
+                    {
+                        word += _boardGrid[i, j].Value;
+                    }
+
+                    wordList.Add(word);
+                }
+            }
+
+            return wordList;
+        }
+
+        private void SetBoardGridWords(List<string> words)
+        {
+            foreach (var word in words)
+            {
+                int col = 0;
+
+                foreach (var c in word)
+                {
+                    _boardGrid[currentRow, col].State = BoardCellState.Typing;
+                    _boardGrid[currentRow, col].Value = c;
+
+                    col++;
+                }
+
+                CheckCurrentLineSolution();
+            }
         }
     }
 }
