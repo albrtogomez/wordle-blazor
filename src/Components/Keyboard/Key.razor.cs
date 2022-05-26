@@ -44,7 +44,7 @@ namespace WordleBlazor.Components
             };
         }
 
-        private void KeyClicked()
+        private async Task KeyClicked()
         {
             if (KeyType == KeyType.Letter)
             {
@@ -52,7 +52,7 @@ namespace WordleBlazor.Components
             }
             else if (KeyType == KeyType.Send)
             {
-                GameManagerService.CheckCurrentLineSolution();
+                await GameManagerService.CheckCurrentLineSolution();
             }
             else if (KeyType == KeyType.Remove)
             {

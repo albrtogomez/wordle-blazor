@@ -1,0 +1,18 @@
+﻿@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<div class="flex flex-col items-center mt-6">
+    <p class="text-lg font-bold">ESTADÍSTICAS</p>
+    <p>Jugadas: @stats.GamesPlayed </p>
+    <p>Ganadas: @stats.GamesWon</p>
+    <p>Racha actual: @stats.CurrentStreak</p>
+    <p>Mejor racha: @stats.BestStreak</p>
+@*    <p>1: @stats.GamesResultDistribution[1]</p>
+    <p>2: @stats.GamesResultDistribution[2]</p>
+    <p>3: @stats.GamesResultDistribution[3]</p>
+    <p>4: @stats.GamesResultDistribution[4]</p>
+    <p>5: @stats.GamesResultDistribution[5]</p>
+    <p>6: @stats.GamesResultDistribution[6]</p>
+    <p>X: @stats.GamesResultDistribution[-1]</p>*@
+</div>
+
+

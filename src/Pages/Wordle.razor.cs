@@ -40,14 +40,14 @@ namespace WordleBlazor.Pages
             StateHasChanged();
         }
 
-        private void KeyDown(KeyboardEventArgs e)
+        private async Task KeyDown(KeyboardEventArgs e)
         {
             string key = e.Key.ToUpper();
             if (GameManagerService.GameState == GameState.Playing && validKeys.Contains(key))
             {
                 if (key == "ENTER")
                 {
-                    GameManagerService.CheckCurrentLineSolution();
+                    await GameManagerService.CheckCurrentLineSolution();
                 }
                 else if (key == "BACKSPACE")
                 {

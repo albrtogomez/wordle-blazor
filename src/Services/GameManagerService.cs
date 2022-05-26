@@ -29,6 +29,7 @@ namespace WordleBlazor.Services
 
         private string solution = "";
         private DateTime gameStarted;
+        private DateTime lastGamePlayedDate;
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
@@ -118,7 +119,7 @@ namespace WordleBlazor.Services
             }
         }
 
-        public void CheckCurrentLineSolution()
+        public async Task CheckCurrentLineSolution()
         {
             if (GameState == GameState.Playing)
             {
@@ -208,7 +209,7 @@ namespace WordleBlazor.Services
                     _gameState = GameState.GameOver;
                 }
 
-                SaveCurrentGameStateToLocalStorage();
+                await SaveCurrentGameStateToLocalStorage();
             }
         }
 
@@ -255,21 +256,23 @@ namespace WordleBlazor.Services
 
         private async Task LoadGameStateFromLocalStorage()
         {
+            DateTime localStorageLastDayPlayed = await _localStorage.GetItemAsync<DateTime>(nameof(lastGamePlayedDate));
             var today = DateTime.Now.Date;
 
-            DateTime lastDayPlayed = await _localStorage.GetItemAsync<DateTime>("LastDayPlayed");
-
-            if (today == lastDayPlayed)
+            if (localStorageLastDayPlayed == today)
             {
+                lastGamePlayedDate = localStorageLastDayPlayed;
+
                 var board = await _localStorage.GetItemAsync<List<string>>(nameof(BoardGrid));
                 if (board != null)
                 {
-                    SetBoardGridWords(board);
+                    await SetBoardGridWords(board);
                 }
             }
             else
             {
-                await _localStorage.SetItemAsync("LastDayPlayed", gameStarted.Date);
+                lastGamePlayedDate = gameStarted.Date;
+                await _localStorage.SetItemAsync(nameof(lastGamePlayedDate), gameStarted.Date);
                 await _localStorage.RemoveItemAsync(nameof(BoardGrid));
             }
         }
@@ -277,6 +280,47 @@ namespace WordleBlazor.Services
         private async Task SaveCurrentGameStateToLocalStorage()
         {
             await _localStorage.SetItemAsync(nameof(BoardGrid), GetBoardGridWords());
+
+            if (_gameState == GameState.Win || _gameState == GameState.GameOver)
+            {
+                await UpdateGameStats();
+                await _localStorage.SetItemAsync("lastGameFinishedDate", lastGamePlayedDate);
+            }
+        }
+
+        private async Task UpdateGameStats()
+        {
+            var lastGameFinishedDate = await _localStorage.GetItemAsync<DateTime>("lastGameFinishedDate");
+            var today = DateTime.Now.Date;
+
+            if (lastGameFinishedDate != today)
+            {
+                var stats = await _localStorage.GetItemAsync<Stats>(nameof(Stats));
+                if (stats == null)
+                {
+                    stats = new Stats();
+                }
+
+                stats.GamesPlayed++;
+
+                if (GameState == GameState.Win)
+                {
+                    stats.GamesWon++;
+                    stats.CurrentStreak++;
+
+                    if (stats.CurrentStreak > stats.BestStreak)
+                        stats.BestStreak = stats.CurrentStreak;
+
+                    stats.GamesResultDistribution[currentRow + 1]++;
+                }
+                else
+                {
+                    stats.CurrentStreak = 0;
+                    stats.GamesResultDistribution[-1]++;
+                }
+
+                await _localStorage.SetItemAsync(nameof(Stats), stats);
+            }
         }
 
         private List<string> GetBoardGridWords()
@@ -301,7 +345,7 @@ namespace WordleBlazor.Services
             return wordList;
         }
 
-        private void SetBoardGridWords(List<string> words)
+        private async Task SetBoardGridWords(List<string> words)
         {
             foreach (var word in words)
             {
@@ -315,7 +359,7 @@ namespace WordleBlazor.Services
                     col++;
                 }
 
-                CheckCurrentLineSolution();
+                await CheckCurrentLineSolution();
             }
         }
     }
