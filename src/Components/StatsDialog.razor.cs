@@ -13,5 +13,15 @@ namespace WordleBlazor.Components
             if (stats == null)
                 stats = new Stats();
         }
+
+        private string GetGamesWonPercent()
+        {
+            return (stats.GamesWon * 100 / @stats.GamesPlayed).ToString();
+        }
+
+        private string GetGameResultDistributionPercent(int keyRow)
+        {
+            return (stats.GamesResultDistribution[keyRow] * 100 / @stats.GamesPlayed).ToString();
+        }
     }
 }

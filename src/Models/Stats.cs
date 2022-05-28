@@ -15,7 +15,7 @@
         /// 'Key' -1 refers to lost games.
         /// 'Value' is the number of games won in that row.
         /// </summary>
-        public Dictionary<int, int> GamesResultDistribution { get; } = new Dictionary<int, int>()
+        public Dictionary<int, int> GamesResultDistribution { get; set; } = new Dictionary<int, int>()
         {
             { -1, 0 },
             { 1, 0 },
