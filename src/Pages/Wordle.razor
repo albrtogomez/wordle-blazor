@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @inject GameManagerService GameManagerService
+@inject IStringLocalizer<Localization> Loc
 
 <PageTitle>Wordle</PageTitle>
 
@@ -9,11 +10,11 @@
 
     <ToastNotification />
 
-    <GameBoard @ref="gameBoard" />
+    <GameBoard AncestorComponent="this" @ref="gameBoard" />
 
     @if (showStats)
     {
-        <Modal Title="ESTADÍSTICAS" OnCloseCallback="@CloseStats">
+        <Modal Title="@Loc["StatsTitle"]" OnCloseCallback="@CloseStats">
             <StatsDialog />
         </Modal>
     }

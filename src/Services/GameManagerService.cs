@@ -1,8 +1,10 @@
 ﻿using Blazored.LocalStorage;
+using Microsoft.Extensions.Localization;
 using System.Net.Http.Json;
 using System.Text;
 using WordleBlazor.Models;
 using WordleBlazor.Models.Enums;
+using WordleBlazor.Resources;
 
 namespace WordleBlazor.Services
 {
@@ -26,7 +28,7 @@ namespace WordleBlazor.Services
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
         private readonly ILocalStorageService _localStorage;
-
+        private readonly IStringLocalizer<Localization> _loc;
         private string solution = "";
         private DateTime gameStarted;
         private DateTime lastGamePlayedDate;
@@ -34,11 +36,12 @@ namespace WordleBlazor.Services
         private int currentRow;
         private int currentColumn;
 
-        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, ILocalStorageService localStorage)
+        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, ILocalStorageService localStorage, IStringLocalizer<Localization> loc)
         {
             _httpClient = httpClient;
             _toastNotificationService = toastNotificationService;
             _localStorage = localStorage;
+            _loc = loc;
             _boardGrid = new BoardCell[RowSize, ColumnSize];
             _usedKeys = new Dictionary<char, KeyState>();
 
@@ -134,14 +137,14 @@ namespace WordleBlazor.Services
 
                 if (currentLine.Length != solution.Length)
                 {
-                    _toastNotificationService.ShowToast("No hay suficientes letras");
+                    _toastNotificationService.ShowToast(_loc["GameManagerNotEnoughLetters"]);
                     OnBoardLineWrongSolution.Invoke(currentRow);
                     return;
                 }
 
                 if (!validWords.Contains(currentLine) && currentLine != solution)
                 {
-                    _toastNotificationService.ShowToast("La palabra no existe");
+                    _toastNotificationService.ShowToast(_loc["GameManagerWordDoesNotExist"]);
                     OnBoardLineWrongSolution.Invoke(currentRow);
                     return;
                 }

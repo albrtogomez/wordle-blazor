@@ -1,4 +1,5 @@
 ﻿@inject GameManagerService GameManagerService
+@inject IStringLocalizer<Localization> Loc
 
 <div class="flex flex-col my-5">
     <BoardLine RowIndex="0">
@@ -50,10 +51,10 @@
     </BoardLine>
 </div>
 
-<div class="flex-col items-center justify-start h-[164px] w-screen max-w-[480px] @NextWordClasses">
-    <p class="text-2xl mb-4 font-bold">@GetNextWordMessage()</p>
-    <p class="text-2xl">Siguiente palabra en @currentTime</p>
-    @*<Button Text="JUGAR MÁS" Icon="play" OnClick="@PlayAgain" />*@
+<div class="flex-col items-center justify-start h-[164px] w-screen max-w-[480px] gap-4 @NextWordClasses">
+    <p class="text-2xl font-bold">@GetNextWordMessage()</p>
+    <p class="text-2xl">@Loc["GameboardNextWordCountdown"] @currentTime</p>
+    <Button Text="@Loc["StatsTitle"]" OnClick="@ShowStats" Class="mt-2" />
 </div>
 
 <div class="@KeyboardContainerClasses">

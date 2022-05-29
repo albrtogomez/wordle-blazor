@@ -70,11 +70,11 @@ namespace WordleBlazor.Components
             }
             else if (KeyType == KeyType.Send)
             {
-                return "ENVIAR";
+                return Loc["KeyboardSend"];
             }
             else if (KeyType == KeyType.Remove)
             {
-                return "BORRAR";
+                return Loc["KeyboardDel"];
             }
             else
             {

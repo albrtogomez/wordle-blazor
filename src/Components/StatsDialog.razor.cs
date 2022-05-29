@@ -8,7 +8,10 @@ namespace WordleBlazor.Components
 
         protected override async Task OnInitializedAsync()
         {
-            stats = await localStorage.GetItemAsync<Stats>(nameof(Stats));
+            var storedStats = await localStorage.GetItemAsync<Stats>(nameof(Stats));
+
+            if (storedStats != null)
+                stats = storedStats;
         }
 
         private string GetGamesWonPercent()

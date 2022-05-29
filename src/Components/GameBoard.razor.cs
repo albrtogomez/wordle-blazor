@@ -1,11 +1,16 @@
 using BlazorComponentUtilities;
+using Microsoft.AspNetCore.Components;
 using System.Timers;
 using WordleBlazor.Models.Enums;
+using WordleBlazor.Pages;
 
 namespace WordleBlazor.Components
 {
     public partial class GameBoard
     {
+        [Parameter, EditorRequired]
+        public Wordle? AncestorComponent { get; set; }
+
         private string? NextWordClasses => new CssBuilder()
             .AddClass("flex", ShowNextWord)
              .AddClass("hidden", !ShowNextWord)
@@ -52,14 +57,14 @@ namespace WordleBlazor.Components
         private string GetNextWordMessage()
         {
             if (GameManagerService.GameState == GameState.Win)
-                return "HAS GANADO";
+                return Loc["GameboardWin"];
             else
-                return "HAS PERDIDO";
+                return Loc["GameboardLose"];
         }
 
-        private void PlayAgain()
+        private void ShowStats()
         {
-            GameManagerService.Reset();
+            AncestorComponent?.ShowStats();
         }
     }
 }
