@@ -13,7 +13,7 @@ namespace WordleBlazor.Components
 
         private string? NextWordClasses => new CssBuilder()
             .AddClass("flex", ShowNextWord)
-             .AddClass("hidden", !ShowNextWord)
+            .AddClass("hidden", !ShowNextWord)
             .Build();
 
         private string? KeyboardContainerClasses => new CssBuilder()
@@ -27,7 +27,7 @@ namespace WordleBlazor.Components
         private bool ShowKeyboard => GameManagerService.GameState == GameState.NotStarted ||
                 GameManagerService.GameState == GameState.Playing;
 
-        private string currentTime = "00:00:00";
+        private string timeLeftForNextWord = "00:00:00";
         private System.Timers.Timer currentTimeUpdaterTimer = null!;
 
         protected override async Task OnInitializedAsync()
@@ -49,7 +49,7 @@ namespace WordleBlazor.Components
 
         private void UpdateCurrentTime(object? sender, ElapsedEventArgs e)
         {
-            currentTime = (DateTime.Today.AddDays(1) - DateTime.Now).ToString(@"hh\:mm\:ss");
+            timeLeftForNextWord = (DateTime.Today.AddDays(1) - DateTime.Now).ToString(@"hh\:mm\:ss");
 
             InvokeAsync(StateHasChanged);
         }

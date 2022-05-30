@@ -123,6 +123,9 @@
   <data name="GameboardNextWordCountdown" xml:space="preserve">
     <value>Next word in</value>
   </data>
+  <data name="GameboardTheWordWas" xml:space="preserve">
+    <value>The word was</value>
+  </data>
   <data name="GameboardWin" xml:space="preserve">
     <value>YOU WIN</value>
   </data>
@@ -131,6 +134,15 @@
   </data>
   <data name="GameManagerWordDoesNotExist" xml:space="preserve">
     <value>Word does not exist</value>
+  </data>
+  <data name="HeaderChangeLanguage" xml:space="preserve">
+    <value>Change language</value>
+  </data>
+  <data name="HeaderShowHelp" xml:space="preserve">
+    <value>Show help</value>
+  </data>
+  <data name="HeaderShowStatistics" xml:space="preserve">
+    <value>Show statistics</value>
   </data>
   <data name="KeyboardDel" xml:space="preserve">
     <value>DEL</value>

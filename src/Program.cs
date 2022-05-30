@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Globalization;
 using WordleBlazor;
+using WordleBlazor.Extensions;
 using WordleBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -15,4 +16,8 @@ builder.Services.AddScoped<ToastNotificationService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddLocalization();
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+await host.SetDefaultCulture();
+
+await host.RunAsync();

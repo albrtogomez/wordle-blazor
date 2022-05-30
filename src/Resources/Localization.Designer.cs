@@ -79,6 +79,15 @@ namespace WordleBlazor.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The word was.
+        /// </summary>
+        public static string GameboardTheWordWas {
+            get {
+                return ResourceManager.GetString("GameboardTheWordWas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a YOU WIN.
         /// </summary>
         public static string GameboardWin {
@@ -102,6 +111,33 @@ namespace WordleBlazor.Resources {
         public static string GameManagerWordDoesNotExist {
             get {
                 return ResourceManager.GetString("GameManagerWordDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Change language.
+        /// </summary>
+        public static string HeaderChangeLanguage {
+            get {
+                return ResourceManager.GetString("HeaderChangeLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Show help.
+        /// </summary>
+        public static string HeaderShowHelp {
+            get {
+                return ResourceManager.GetString("HeaderShowHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Show statistics.
+        /// </summary>
+        public static string HeaderShowStatistics {
+            get {
+                return ResourceManager.GetString("HeaderShowStatistics", resourceCulture);
             }
         }
         

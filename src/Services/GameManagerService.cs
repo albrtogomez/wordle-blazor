@@ -19,6 +19,9 @@ namespace WordleBlazor.Services
         private BoardCell[,] _boardGrid;
         public BoardCell[,] BoardGrid { get => _boardGrid; }
 
+        private string _solution = "";
+        public string Solution { get => _solution; }
+
         private Dictionary<char, KeyState> _usedKeys;
         public Dictionary<char, KeyState> UsedKeys { get => _usedKeys; }
 
@@ -29,7 +32,7 @@ namespace WordleBlazor.Services
         private readonly ToastNotificationService _toastNotificationService;
         private readonly ILocalStorageService _localStorage;
         private readonly IStringLocalizer<Localization> _loc;
-        private string solution = "";
+
         private DateTime gameStarted;
         private DateTime lastGamePlayedDate;
         private List<string> validWords = new();
@@ -62,7 +65,7 @@ namespace WordleBlazor.Services
             if (solutions != null)
             {
                 var currentTime = DateTime.Now;
-                solution = solutions[currentTime.DayOfYear];
+                _solution = solutions[currentTime.DayOfYear];
                 gameStarted = currentTime;
             }
         }
@@ -135,14 +138,14 @@ namespace WordleBlazor.Services
 
                 string currentLine = currentLineBuilder.ToString();
 
-                if (currentLine.Length != solution.Length)
+                if (currentLine.Length != _solution.Length)
                 {
                     _toastNotificationService.ShowToast(_loc["GameManagerNotEnoughLetters"]);
                     OnBoardLineWrongSolution.Invoke(currentRow);
                     return;
                 }
 
-                if (!validWords.Contains(currentLine) && currentLine != solution)
+                if (!validWords.Contains(currentLine) && currentLine != _solution)
                 {
                     _toastNotificationService.ShowToast(_loc["GameManagerWordDoesNotExist"]);
                     OnBoardLineWrongSolution.Invoke(currentRow);
@@ -153,9 +156,9 @@ namespace WordleBlazor.Services
                 {
                     var foundIndexes = new List<int>();
 
-                    for (int j = 0; j < solution.Length; j++)
+                    for (int j = 0; j < _solution.Length; j++)
                     {
-                        if (solution[j] == currentLine[i])
+                        if (_solution[j] == currentLine[i])
                             foundIndexes.Add(j);
                     }
 
@@ -198,7 +201,7 @@ namespace WordleBlazor.Services
 
                 OnCurrentLineCheckedSolution.Invoke(currentRow);
 
-                if (currentLine == solution)
+                if (currentLine == _solution)
                 {
                     _gameState = GameState.Win;
                 }
