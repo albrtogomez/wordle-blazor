@@ -18,13 +18,13 @@ namespace WordleBlazor.Components
 
         private string KeyClasses => new CssBuilder()
             .AddClass("bg-middlegray h-[52px] cursor-pointer")
-            .AddClass("flex justify-center items-center")
+            .AddClass("flex justify-center items-center grow")
             .AddClass("text-center font-bold text-[15px]")
             .AddClass("rounded-md border-transparent pb-0.5 px-1 mx-0.5")
             .AddClass("transition-keyactive duration-150")
             .AddClass("hover:bg-keyhover active:bg-keyactive active:border-[3px] active:border-keyactiveborder")
-            .AddClass("w-[44px]", KeyType == KeyType.Letter)
-            .AddClass("w-[66px]", KeyType != KeyType.Letter).Build();
+            .AddClass("min-w-[43px]", KeyType == KeyType.Letter)
+            .AddClass("min-w-[66px]", KeyType != KeyType.Letter).Build();
 
         private string GetKeyStateClass()
         {

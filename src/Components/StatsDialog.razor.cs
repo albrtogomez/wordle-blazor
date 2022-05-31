@@ -8,7 +8,16 @@ namespace WordleBlazor.Components
 
         protected override async Task OnInitializedAsync()
         {
-            var storedStats = await localStorage.GetItemAsync<Stats>(nameof(Stats));
+            var currentCulture = await localStorage.GetItemAsync<string>("CurrentCulture");
+
+            string cultureSuffix;
+
+            if (currentCulture?.StartsWith("es") == true)
+                cultureSuffix = "-ES";
+            else
+                cultureSuffix = "-EN";
+
+            var storedStats = await localStorage.GetItemAsync<Stats>(nameof(Stats) + cultureSuffix);
 
             if (storedStats != null)
                 stats = storedStats;

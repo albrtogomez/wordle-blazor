@@ -25,7 +25,10 @@
             <Key KeyType="KeyType.Letter" KeyValue="'J'" />
             <Key KeyType="KeyType.Letter" KeyValue="'K'" />
             <Key KeyType="KeyType.Letter" KeyValue="'L'" />
-            <Key KeyType="KeyType.Letter" KeyValue="'Ñ'" />
+            @if (isSpanishKeyboard)
+            {
+                <Key KeyType="KeyType.Letter" KeyValue="'Ñ'" />
+            }
         </div>
 
         <div class="flex justify-between mb-[5px] mx-1">

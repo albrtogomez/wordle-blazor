@@ -32,8 +32,7 @@ namespace WordleBlazor.Components
 
         protected override async Task OnInitializedAsync()
         {
-            await GameManagerService.LoadJsonSpanishDictionary();
-            await GameManagerService.GetTodaySolution();
+            await GameManagerService.LoadGameData();
 
             currentTimeUpdaterTimer = new System.Timers.Timer(1000);
             currentTimeUpdaterTimer.Elapsed += UpdateCurrentTime;

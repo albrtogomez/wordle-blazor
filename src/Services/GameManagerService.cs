@@ -38,6 +38,7 @@ namespace WordleBlazor.Services
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
+        private Language language;
 
         public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, ILocalStorageService localStorage, IStringLocalizer<Localization> loc)
         {
@@ -51,16 +52,55 @@ namespace WordleBlazor.Services
             PopulateBoard();
         }
 
-        public async Task LoadJsonSpanishDictionary()
+        public async Task LoadGameData()
         {
-            var wordList = await _httpClient.GetFromJsonAsync<List<string>>("data/spanish-words.json");
+            await GetCurrentCulture();
+            await LoadDictionary();
+            await GetTodaySolution();
+        }
+
+        private async Task GetCurrentCulture()
+        {
+            var currentCulture = await _localStorage.GetItemAsync<string>("CurrentCulture");
+
+            if (currentCulture?.StartsWith("es") == true)
+                language = Language.Spanish;
+            else
+                language = Language.English;
+        }
+
+        private async Task LoadDictionary()
+        {
+            string dictionaryPath;
+
+            if (language == Language.English)
+            {
+                dictionaryPath = "data/english-words.json";
+            }
+            else
+            {
+                dictionaryPath = "data/spanish-words.json";
+            }
+
+            var wordList = await _httpClient.GetFromJsonAsync<List<string>>(dictionaryPath);
 
             validWords = wordList ?? new List<string>();
         }
 
-        public async Task GetTodaySolution()
+        private async Task GetTodaySolution()
         {
-            var solutions = await _httpClient.GetFromJsonAsync<Dictionary<int, string>>("data/daily-solutions-sp.json");
+            string solutionPath;
+
+            if (language == Language.English)
+            {
+                solutionPath = "data/daily-solutions-en.json";
+            }
+            else
+            {
+                solutionPath = "data/daily-solutions-sp.json";
+            }
+
+            var solutions = await _httpClient.GetFromJsonAsync<Dictionary<int, string>>(solutionPath);
 
             if (solutions != null)
             {
@@ -262,14 +302,14 @@ namespace WordleBlazor.Services
 
         private async Task LoadGameStateFromLocalStorage()
         {
-            DateTime localStorageLastDayPlayed = await _localStorage.GetItemAsync<DateTime>(nameof(lastGamePlayedDate));
+            DateTime localStorageLastDayPlayed = await _localStorage.GetItemAsync<DateTime>(nameof(lastGamePlayedDate) + GetLanguageSuffix());
             var today = DateTime.Now.Date;
 
             if (localStorageLastDayPlayed == today)
             {
                 lastGamePlayedDate = localStorageLastDayPlayed;
 
-                var board = await _localStorage.GetItemAsync<List<string>>(nameof(BoardGrid));
+                var board = await _localStorage.GetItemAsync<List<string>>(nameof(BoardGrid) + GetLanguageSuffix());
                 if (board != null)
                 {
                     await SetBoardGridWords(board);
@@ -278,30 +318,30 @@ namespace WordleBlazor.Services
             else
             {
                 lastGamePlayedDate = gameStarted.Date;
-                await _localStorage.SetItemAsync(nameof(lastGamePlayedDate), gameStarted.Date);
-                await _localStorage.RemoveItemAsync(nameof(BoardGrid));
+                await _localStorage.SetItemAsync(nameof(lastGamePlayedDate) + GetLanguageSuffix(), gameStarted.Date);
+                await _localStorage.RemoveItemAsync(nameof(BoardGrid) + GetLanguageSuffix());
             }
         }
 
         private async Task SaveCurrentGameStateToLocalStorage()
         {
-            await _localStorage.SetItemAsync(nameof(BoardGrid), GetBoardGridWords());
+            await _localStorage.SetItemAsync(nameof(BoardGrid) + GetLanguageSuffix(), GetBoardGridWords());
 
             if (_gameState == GameState.Win || _gameState == GameState.GameOver)
             {
                 await UpdateGameStats();
-                await _localStorage.SetItemAsync("lastGameFinishedDate", lastGamePlayedDate);
+                await _localStorage.SetItemAsync("lastGameFinishedDate" + GetLanguageSuffix(), lastGamePlayedDate);
             }
         }
 
         private async Task UpdateGameStats()
         {
-            var lastGameFinishedDate = await _localStorage.GetItemAsync<DateTime>("lastGameFinishedDate");
+            var lastGameFinishedDate = await _localStorage.GetItemAsync<DateTime>("lastGameFinishedDate" + GetLanguageSuffix());
             var today = DateTime.Now.Date;
 
             if (lastGameFinishedDate != today)
             {
-                var stats = await _localStorage.GetItemAsync<Stats>(nameof(Stats));
+                var stats = await _localStorage.GetItemAsync<Stats>(nameof(Stats) + GetLanguageSuffix());
                 if (stats == null)
                 {
                     stats = new Stats();
@@ -325,7 +365,7 @@ namespace WordleBlazor.Services
                     stats.GamesResultDistribution[-1]++;
                 }
 
-                await _localStorage.SetItemAsync(nameof(Stats), stats);
+                await _localStorage.SetItemAsync(nameof(Stats) + GetLanguageSuffix(), stats);
             }
         }
 
@@ -367,6 +407,11 @@ namespace WordleBlazor.Services
 
                 await CheckCurrentLineSolution();
             }
+        }
+
+        private string GetLanguageSuffix()
+        {
+            return language == Language.English ? "-EN" : "-ES";
         }
     }
 }

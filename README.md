@@ -52,11 +52,13 @@ My only rule from the beginning of this project is not to write a single line in
 - [x] Add improved loading page with spinner
 - [x] Deploy to GitHub Pages
 - [x] Create generic modal to show stuff like help, statistics, configuration, etc
-- [x] Add local storage state management to keep current game and stats between sessions
+- [x] Add local storage to keep current game state and stats between sessions
 - [x] Create player stats page from previous games
-- [ ] Add English localization (multi-lenguage) with selector
+- [x] Add English localization with language selector
+- [x] Add English valid words dataset and daily solutions
+- [x] Separate local storage data for each language to keep game state and stats independent
 - [ ] Implement mediator pattern for communication between components and game logic
-
+- [ ] Code cleanup
 
 <!-- CONTRIBUTING -->
 ## Contributing

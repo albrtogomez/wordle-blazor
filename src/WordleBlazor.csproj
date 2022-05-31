@@ -24,7 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\data\daily-solutions-en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\data\daily-solutions-sp.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\data\english-words.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\data\spanish-words.json">
