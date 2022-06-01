@@ -53,7 +53,10 @@
 
 <div class="flex-col items-center justify-start h-[180px] w-screen max-w-[480px] gap-3 @NextWordClasses">
     <p class="text-2xl font-bold">@GetNextWordMessage()</p>
-    <p>@Loc["GameboardTheWordWas"]: @GameManagerService.Solution</p>
+    @if (GameManagerService.GameState == GameState.GameOver)
+    {
+        <p>@Loc["GameboardTheWordWas"]: @GameManagerService.Solution</p>
+    }
     <p class="text-2xl">@Loc["GameboardNextWordCountdown"] @timeLeftForNextWord</p>
     <Button Text="@Loc["StatsTitle"]" OnClick="@ShowStats" Class="mt-2" />
 </div>
