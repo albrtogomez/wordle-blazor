@@ -1,4 +1,4 @@
-﻿namespace WordleBlazor.Models
+﻿namespace WordleBlazor.Model
 {
     public class Stats
     {

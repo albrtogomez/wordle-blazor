@@ -1,4 +1,4 @@
-using WordleBlazor.Models;
+using WordleBlazor.Model;
 
 namespace WordleBlazor.Components
 {
@@ -8,16 +8,7 @@ namespace WordleBlazor.Components
 
         protected override async Task OnInitializedAsync()
         {
-            var currentCulture = await localStorage.GetItemAsync<string>("CurrentCulture");
-
-            string cultureSuffix;
-
-            if (currentCulture?.StartsWith("es") == true)
-                cultureSuffix = "-ES";
-            else
-                cultureSuffix = "-EN";
-
-            var storedStats = await localStorage.GetItemAsync<Stats>(nameof(Stats) + cultureSuffix);
+            var storedStats = await localStorage.GetItemAsync<Stats>(nameof(Stats) + LocalizationService.GetCurrentLanguageSuffix());
 
             if (storedStats != null)
                 stats = storedStats;

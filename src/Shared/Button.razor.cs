@@ -1,7 +1,7 @@
 using BlazorComponentUtilities;
 using Microsoft.AspNetCore.Components;
 
-namespace WordleBlazor.Components
+namespace WordleBlazor.Shared
 {
     public partial class Button : BaseComponent
     {

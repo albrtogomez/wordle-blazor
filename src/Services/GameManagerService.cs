@@ -1,10 +1,8 @@
 ﻿using Blazored.LocalStorage;
-using Microsoft.Extensions.Localization;
 using System.Net.Http.Json;
 using System.Text;
-using WordleBlazor.Models;
-using WordleBlazor.Models.Enums;
-using WordleBlazor.Resources;
+using WordleBlazor.Model;
+using WordleBlazor.Model.Enums;
 
 namespace WordleBlazor.Services
 {
@@ -31,16 +29,15 @@ namespace WordleBlazor.Services
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
         private readonly ILocalStorageService _localStorage;
-        private readonly IStringLocalizer<Localization> _loc;
+        private readonly LocalizationService _loc;
 
         private DateTime gameStarted;
         private DateTime lastGamePlayedDate;
         private List<string> validWords = new();
         private int currentRow;
         private int currentColumn;
-        private Language language;
 
-        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, ILocalStorageService localStorage, IStringLocalizer<Localization> loc)
+        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, ILocalStorageService localStorage, LocalizationService loc)
         {
             _httpClient = httpClient;
             _toastNotificationService = toastNotificationService;
@@ -54,26 +51,16 @@ namespace WordleBlazor.Services
 
         public async Task LoadGameData()
         {
-            await GetCurrentCulture();
+            await _loc.GetCurrentCulture();
             await LoadDictionary();
             await GetTodaySolution();
-        }
-
-        private async Task GetCurrentCulture()
-        {
-            var currentCulture = await _localStorage.GetItemAsync<string>("CurrentCulture");
-
-            if (currentCulture?.StartsWith("es") == true)
-                language = Language.Spanish;
-            else
-                language = Language.English;
         }
 
         private async Task LoadDictionary()
         {
             string dictionaryPath;
 
-            if (language == Language.English)
+            if (_loc.CurrentLanguage == Language.English)
             {
                 dictionaryPath = "data/english-words.json";
             }
@@ -91,7 +78,7 @@ namespace WordleBlazor.Services
         {
             string solutionPath;
 
-            if (language == Language.English)
+            if (_loc.CurrentLanguage == Language.English)
             {
                 solutionPath = "data/daily-solutions-en.json";
             }
@@ -302,14 +289,14 @@ namespace WordleBlazor.Services
 
         private async Task LoadGameStateFromLocalStorage()
         {
-            DateTime localStorageLastDayPlayed = await _localStorage.GetItemAsync<DateTime>(nameof(lastGamePlayedDate) + GetLanguageSuffix());
+            DateTime localStorageLastDayPlayed = await _localStorage.GetItemAsync<DateTime>(nameof(lastGamePlayedDate) + _loc.GetCurrentLanguageSuffix());
             var today = DateTime.Now.Date;
 
             if (localStorageLastDayPlayed == today)
             {
                 lastGamePlayedDate = localStorageLastDayPlayed;
 
-                var board = await _localStorage.GetItemAsync<List<string>>(nameof(BoardGrid) + GetLanguageSuffix());
+                var board = await _localStorage.GetItemAsync<List<string>>(nameof(BoardGrid) + _loc.GetCurrentLanguageSuffix());
                 if (board != null)
                 {
                     await SetBoardGridWords(board);
@@ -318,30 +305,30 @@ namespace WordleBlazor.Services
             else
             {
                 lastGamePlayedDate = gameStarted.Date;
-                await _localStorage.SetItemAsync(nameof(lastGamePlayedDate) + GetLanguageSuffix(), gameStarted.Date);
-                await _localStorage.RemoveItemAsync(nameof(BoardGrid) + GetLanguageSuffix());
+                await _localStorage.SetItemAsync(nameof(lastGamePlayedDate) + _loc.GetCurrentLanguageSuffix(), gameStarted.Date);
+                await _localStorage.RemoveItemAsync(nameof(BoardGrid) + _loc.GetCurrentLanguageSuffix());
             }
         }
 
         private async Task SaveCurrentGameStateToLocalStorage()
         {
-            await _localStorage.SetItemAsync(nameof(BoardGrid) + GetLanguageSuffix(), GetBoardGridWords());
+            await _localStorage.SetItemAsync(nameof(BoardGrid) + _loc.GetCurrentLanguageSuffix(), GetBoardGridWords());
 
             if (_gameState == GameState.Win || _gameState == GameState.GameOver)
             {
                 await UpdateGameStats();
-                await _localStorage.SetItemAsync("lastGameFinishedDate" + GetLanguageSuffix(), lastGamePlayedDate);
+                await _localStorage.SetItemAsync("lastGameFinishedDate" + _loc.GetCurrentLanguageSuffix(), lastGamePlayedDate);
             }
         }
 
         private async Task UpdateGameStats()
         {
-            var lastGameFinishedDate = await _localStorage.GetItemAsync<DateTime>("lastGameFinishedDate" + GetLanguageSuffix());
+            var lastGameFinishedDate = await _localStorage.GetItemAsync<DateTime>("lastGameFinishedDate" + _loc.GetCurrentLanguageSuffix());
             var today = DateTime.Now.Date;
 
             if (lastGameFinishedDate != today)
             {
-                var stats = await _localStorage.GetItemAsync<Stats>(nameof(Stats) + GetLanguageSuffix());
+                var stats = await _localStorage.GetItemAsync<Stats>(nameof(Stats) + _loc.GetCurrentLanguageSuffix());
                 if (stats == null)
                 {
                     stats = new Stats();
@@ -365,7 +352,7 @@ namespace WordleBlazor.Services
                     stats.GamesResultDistribution[-1]++;
                 }
 
-                await _localStorage.SetItemAsync(nameof(Stats) + GetLanguageSuffix(), stats);
+                await _localStorage.SetItemAsync(nameof(Stats) + _loc.GetCurrentLanguageSuffix(), stats);
             }
         }
 
@@ -407,11 +394,6 @@ namespace WordleBlazor.Services
 
                 await CheckCurrentLineSolution();
             }
-        }
-
-        private string GetLanguageSuffix()
-        {
-            return language == Language.English ? "-EN" : "-ES";
         }
     }
 }

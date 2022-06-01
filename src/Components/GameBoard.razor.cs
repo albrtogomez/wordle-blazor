@@ -1,7 +1,7 @@
 using BlazorComponentUtilities;
 using Microsoft.AspNetCore.Components;
 using System.Timers;
-using WordleBlazor.Models.Enums;
+using WordleBlazor.Model.Enums;
 using WordleBlazor.Pages;
 
 namespace WordleBlazor.Components
@@ -56,9 +56,9 @@ namespace WordleBlazor.Components
         private string GetNextWordMessage()
         {
             if (GameManagerService.GameState == GameState.Win)
-                return Loc["GameboardWin"];
+                return LocalizationService["GameboardWin"];
             else
-                return Loc["GameboardLose"];
+                return LocalizationService["GameboardLose"];
         }
 
         private void ShowStats()

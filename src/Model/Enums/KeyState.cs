@@ -1,4 +1,4 @@
-﻿namespace WordleBlazor.Models.Enums
+﻿namespace WordleBlazor.Model.Enums
 {
     public enum KeyState
     {

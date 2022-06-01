@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using BlazorComponentUtilities;
-using WordleBlazor.Models.Enums;
+using WordleBlazor.Model.Enums;
 using WordleBlazor.Services;
 
 namespace WordleBlazor.Components
@@ -70,11 +70,11 @@ namespace WordleBlazor.Components
             }
             else if (KeyType == KeyType.Send)
             {
-                return Loc["KeyboardSend"];
+                return LocalizationService["KeyboardSend"];
             }
             else if (KeyType == KeyType.Remove)
             {
-                return Loc["KeyboardDel"];
+                return LocalizationService["KeyboardDel"];
             }
             else
             {

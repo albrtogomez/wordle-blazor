@@ -12,6 +12,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<GameManagerService>();
 builder.Services.AddScoped<ToastNotificationService>();
+builder.Services.AddScoped<LocalizationService>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddLocalization();
 

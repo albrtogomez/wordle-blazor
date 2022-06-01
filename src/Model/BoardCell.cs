@@ -1,6 +1,6 @@
-﻿using WordleBlazor.Models.Enums;
+﻿using WordleBlazor.Model.Enums;
 
-namespace WordleBlazor.Models
+namespace WordleBlazor.Model
 {
     public class BoardCell
     {

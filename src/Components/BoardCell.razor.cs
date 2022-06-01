@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.Components;
-using WordleBlazor.Models.Enums;
+using WordleBlazor.Model.Enums;
 
 namespace WordleBlazor.Components
 {
     public partial class BoardCell
     {
-        private string TriggerFlipClass = "";
-        private string FlipDelay => ColumnIndex > 0 ? $"{ColumnIndex * 200}ms" : "";
-
         [Parameter, EditorRequired]
         public char? CellValue { get; set; }
 
@@ -33,6 +30,9 @@ namespace WordleBlazor.Components
 
         [Parameter, EditorRequired]
         public int ColumnIndex { get; set; }
+
+        private string TriggerFlipClass = "";
+        private string FlipDelay => ColumnIndex > 0 ? $"{ColumnIndex * 200}ms" : "";
 
         protected override void OnInitialized()
         {

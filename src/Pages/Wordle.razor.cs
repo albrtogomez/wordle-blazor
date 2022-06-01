@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using WordleBlazor.Components;
-using WordleBlazor.Models.Enums;
+using WordleBlazor.Model.Enums;
 using WordleBlazor.Services;
 
 namespace WordleBlazor.Pages

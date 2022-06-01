@@ -1,7 +1,7 @@
 ﻿@page "/"
 
 @inject GameManagerService GameManagerService
-@inject IStringLocalizer<Localization> Loc
+@inject LocalizationService LocalizationService
 
 <PageTitle>Wordle</PageTitle>
 
@@ -14,7 +14,7 @@
 
     @if (showStats)
     {
-        <Modal Title="@Loc["StatsTitle"]" OnCloseCallback="@CloseStats">
+        <Modal Title="@LocalizationService["StatsTitle"]" OnCloseCallback="@CloseStats">
             <StatsDialog />
         </Modal>
     }

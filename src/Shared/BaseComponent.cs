@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace WordleBlazor.Components
+namespace WordleBlazor.Shared
 {
     public abstract class BaseComponent : ComponentBase
     {

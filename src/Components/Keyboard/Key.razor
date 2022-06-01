@@ -1,8 +1,0 @@
-﻿@namespace WordleBlazor.Components
-
-@inject GameManagerService GameManagerService
-@inject IStringLocalizer<Localization> Loc
-
-<div class="@KeyClasses @GetKeyStateClass()" @onclick="KeyClicked">
-    @GetKeyText()
-</div>

@@ -1,5 +1,5 @@
 ﻿@inject GameManagerService GameManagerService
-@inject IStringLocalizer<Localization> Loc
+@inject LocalizationService LocalizationService
 
 <div class="flex flex-col my-5">
     <BoardLine RowIndex="0">
@@ -55,10 +55,10 @@
     <p class="text-2xl font-bold">@GetNextWordMessage()</p>
     @if (GameManagerService.GameState == GameState.GameOver)
     {
-        <p>@Loc["GameboardTheWordWas"]: @GameManagerService.Solution</p>
+        <p>@LocalizationService["GameboardTheWordWas"]: @GameManagerService.Solution</p>
     }
-    <p class="text-2xl">@Loc["GameboardNextWordCountdown"] @timeLeftForNextWord</p>
-    <Button Text="@Loc["StatsTitle"]" OnClick="@ShowStats" Class="mt-2" />
+    <p class="text-2xl">@LocalizationService["GameboardNextWordCountdown"] @timeLeftForNextWord</p>
+    <Button Text="@LocalizationService["StatsTitle"]" OnClick="@ShowStats" Class="mt-2" />
 </div>
 
 <div class="@KeyboardContainerClasses">

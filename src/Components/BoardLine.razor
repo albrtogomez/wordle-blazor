@@ -1,0 +1,8 @@
+﻿@inject GameManagerService GameManagerService
+@implements IDisposable
+
+<Animation Name="animate-shake" Duration="1000" @ref="AnimationRef">
+    <div class="grid grid-cols-5">
+        @ChildContent
+    </div>
+</Animation>

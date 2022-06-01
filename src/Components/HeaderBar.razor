@@ -1,8 +1,10 @@
-﻿@inject IStringLocalizer<Localization> Loc
+﻿@inject LocalizationService LocalizationService
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavManager
 
 <div class="flex shrink-0 justify-between items-center w-screen h-12  border-b border-lightgray max-w-[480px]">
     <div class="flex-1 ml-4">
-        <img class="mt-0.5 cursor-pointer" src="images/help.svg" alt="Help" title="@Loc["HeaderShowHelp"]">
+        <img class="mt-0.5 cursor-pointer" src="images/help.svg" alt="Help" title="@LocalizationService["HeaderShowHelp"]">
     </div>
 
     <div class="flex-1 flex justify-center">
@@ -10,7 +12,7 @@
     </div>
 
     <div class="flex-1 flex justify-end mr-4 mt-0.5">
-        <img class="mr-2 cursor-pointer" src="images/chart.svg" alt="Statistics" title="@Loc["HeaderShowStatistics"]" @onclick="() => AncestorComponent?.ShowStats()">
-        <img class="cursor-pointer w-[21px] h-[14px] mt-[3px]" src="@GetCurrentCultureFlag()" alt="Language selector" title="@Loc["HeaderChangeLanguage"]" @onclick="ChangeLanguage">
+        <img class="mr-2 cursor-pointer" src="images/chart.svg" alt="Statistics" title="@LocalizationService["HeaderShowStatistics"]" @onclick="() => AncestorComponent?.ShowStats()">
+        <img class="cursor-pointer w-[21px] h-[14px] mt-[3px]" src="@GetCurrentLanguageFlag()" alt="Language selector" title="@LocalizationService["HeaderChangeLanguage"]" @onclick="ChangeLanguage">
     </div>
 </div>
