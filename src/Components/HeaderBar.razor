@@ -13,6 +13,6 @@
 
     <div class="flex-1 flex justify-end mr-4 mt-0.5">
         <img class="mr-2 cursor-pointer" src="images/chart.svg" alt="Statistics" title="@LocalizationService["HeaderShowStatistics"]" @onclick="() => AncestorComponent?.ShowStats()">
-        <img class="cursor-pointer w-[21px] h-[14px] mt-[3px]" src="@GetCurrentLanguageFlag()" alt="Language selector" title="@LocalizationService["HeaderChangeLanguage"]" @onclick="ChangeLanguage">
+        <img class="cursor-pointer w-[21px] h-[14px] mt-[3px]" src="@GetCurrentLanguageFlagPath()" alt="Language selector" title="@LocalizationService["HeaderChangeLanguage"]" @onclick="ChangeLanguage">
     </div>
 </div>

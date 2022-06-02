@@ -9,18 +9,15 @@ namespace WordleBlazor.Components
         [Parameter, EditorRequired]
         public Wordle? AncestorComponent { get; set; }
 
-        private readonly string englishFlagPath = "images/english.svg";
-        private readonly string spanishFlagPath = "images/spanish.svg";
-
-        private string GetCurrentLanguageFlag()
+        private string GetCurrentLanguageFlagPath()
         {
             if (LocalizationService.CurrentLanguage == Language.English)
             {
-                return englishFlagPath;
+                return "images/english.svg";
             }
             else
             {
-                return spanishFlagPath;
+                return "images/spanish.svg";
             }
         }
 

@@ -5,14 +5,14 @@
 
 <PageTitle>Wordle</PageTitle>
 
-<div class="flex flex-col justify-between items-center h-full w-full outline-0" @ref="mainDiv" tabindex="0" @onkeydown="KeyDown">
+<div class="flex flex-col justify-between items-center h-full w-full outline-0" @ref="_mainDiv" tabindex="0" @onkeydown="KeyDown">
     <HeaderBar AncestorComponent="this" />
 
     <ToastNotification />
 
-    <GameBoard AncestorComponent="this" @ref="gameBoard" />
+    <GameBoard AncestorComponent="this" @ref="_gameBoard" />
 
-    @if (showStats)
+    @if (_showStats)
     {
         <Modal Title="@LocalizationService["StatsTitle"]" OnCloseCallback="@CloseStats">
             <StatsDialog />

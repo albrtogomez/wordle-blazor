@@ -1,5 +1,4 @@
-﻿using Blazored.LocalStorage;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text;
 using WordleBlazor.Model;
 using WordleBlazor.Model.Enums;
@@ -8,12 +7,6 @@ namespace WordleBlazor.Services
 {
     public class GameManagerService
     {
-        public static readonly int RowSize = 6;
-        public static readonly int ColumnSize = 5;
-
-        public event Action<int> OnBoardLineWrongSolution = default!;
-        public event Action<int> OnCurrentLineCheckedSolution = default!;
-
         private BoardCell[,] _boardGrid;
         public BoardCell[,] BoardGrid { get => _boardGrid; }
 
@@ -26,81 +19,47 @@ namespace WordleBlazor.Services
         public GameState _gameState;
         public GameState GameState { get => _gameState; }
 
+        public static readonly int RowSize = 6;
+        public static readonly int ColumnSize = 5;
+
+        public event Action<int> OnBoardLineWrongSolution = default!;
+        public event Action<int> OnCurrentLineCheckedSolution = default!;
+
         private readonly HttpClient _httpClient;
         private readonly ToastNotificationService _toastNotificationService;
-        private readonly ILocalStorageService _localStorage;
-        private readonly LocalizationService _loc;
+        private readonly BrowserLocalStorageService _localStorageService;
+        private readonly LocalizationService _localizationService;
 
-        private DateTime gameStarted;
-        private DateTime lastGamePlayedDate;
-        private List<string> validWords = new();
-        private int currentRow;
-        private int currentColumn;
+        private List<string> _validWords = new();
+        private int _currentRow;
+        private int _currentColumn;
 
-        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, ILocalStorageService localStorage, LocalizationService loc)
+        public GameManagerService(HttpClient httpClient, ToastNotificationService toastNotificationService, BrowserLocalStorageService localStorage, LocalizationService loc)
         {
             _httpClient = httpClient;
             _toastNotificationService = toastNotificationService;
-            _localStorage = localStorage;
-            _loc = loc;
+            _localStorageService = localStorage;
+            _localizationService = loc;
             _boardGrid = new BoardCell[RowSize, ColumnSize];
             _usedKeys = new Dictionary<char, KeyState>();
 
             PopulateBoard();
         }
 
-        public async Task LoadGameData()
+        public async Task InitializeAndLoadData()
         {
-            await _loc.GetCurrentCulture();
+            await _localizationService.GetCurrentCulture();
             await LoadDictionary();
             await GetTodaySolution();
-        }
-
-        private async Task LoadDictionary()
-        {
-            string dictionaryPath;
-
-            if (_loc.CurrentLanguage == Language.English)
-            {
-                dictionaryPath = "data/english-words.json";
-            }
-            else
-            {
-                dictionaryPath = "data/spanish-words.json";
-            }
-
-            var wordList = await _httpClient.GetFromJsonAsync<List<string>>(dictionaryPath);
-
-            validWords = wordList ?? new List<string>();
-        }
-
-        private async Task GetTodaySolution()
-        {
-            string solutionPath;
-
-            if (_loc.CurrentLanguage == Language.English)
-            {
-                solutionPath = "data/daily-solutions-en.json";
-            }
-            else
-            {
-                solutionPath = "data/daily-solutions-sp.json";
-            }
-
-            var solutions = await _httpClient.GetFromJsonAsync<Dictionary<int, string>>(solutionPath);
-
-            if (solutions != null)
-            {
-                var currentTime = DateTime.Now;
-                _solution = solutions[currentTime.DayOfYear];
-                gameStarted = currentTime;
-            }
         }
 
         public async Task StartGame()
         {
             _gameState = GameState.Playing;
-            await LoadGameStateFromLocalStorage();
+            
+            var storedWords = await _localStorageService.LoadGameStateFromLocalStorage();
+            if (storedWords != null)
+                await SetBoardGridWords(storedWords);
         }
 
         public void Reset()
@@ -110,8 +69,8 @@ namespace WordleBlazor.Services
 
             PopulateBoard();
 
-            currentRow = 0;
-            currentColumn = 0;
+            _currentRow = 0;
+            _currentColumn = 0;
 
             _gameState = GameState.Playing;
         }
@@ -120,14 +79,14 @@ namespace WordleBlazor.Services
         {
             if (GameState == GameState.Playing)
             {
-                if (currentColumn == ColumnSize - 1 && BoardGrid[currentRow, currentColumn].Value != null)
+                if (_currentColumn == ColumnSize - 1 && BoardGrid[_currentRow, _currentColumn].Value != null)
                     return;
 
-                BoardGrid[currentRow, currentColumn].Value = value;
-                BoardGrid[currentRow, currentColumn].State = BoardCellState.Typing;
+                BoardGrid[_currentRow, _currentColumn].Value = value;
+                BoardGrid[_currentRow, _currentColumn].State = BoardCellState.Typing;
 
-                if (currentColumn < ColumnSize - 1)
-                    currentColumn++;
+                if (_currentColumn < ColumnSize - 1)
+                    _currentColumn++;
             }
         }
 
@@ -135,19 +94,19 @@ namespace WordleBlazor.Services
         {
             if (GameState == GameState.Playing)
             {
-                if (currentColumn == 0 && BoardGrid[currentRow, currentColumn].Value == null)
+                if (_currentColumn == 0 && BoardGrid[_currentRow, _currentColumn].Value == null)
                     return;
 
-                if (currentColumn <= ColumnSize - 1 && BoardGrid[currentRow, currentColumn].Value == null)
+                if (_currentColumn <= ColumnSize - 1 && BoardGrid[_currentRow, _currentColumn].Value == null)
                 {
-                    BoardGrid[currentRow, currentColumn - 1].Value = null;
-                    BoardGrid[currentRow, currentColumn - 1].State = BoardCellState.Empty;
-                    currentColumn--;
+                    BoardGrid[_currentRow, _currentColumn - 1].Value = null;
+                    BoardGrid[_currentRow, _currentColumn - 1].State = BoardCellState.Empty;
+                    _currentColumn--;
                 }
                 else
                 {
-                    BoardGrid[currentRow, currentColumn].Value = null;
-                    BoardGrid[currentRow, currentColumn].State = BoardCellState.Empty;
+                    BoardGrid[_currentRow, _currentColumn].Value = null;
+                    BoardGrid[_currentRow, _currentColumn].State = BoardCellState.Empty;
                 }
             }
         }
@@ -160,22 +119,22 @@ namespace WordleBlazor.Services
 
                 for (int i = 0; i < ColumnSize; i++)
                 {
-                    currentLineBuilder.Append(BoardGrid[currentRow, i].Value);
+                    currentLineBuilder.Append(BoardGrid[_currentRow, i].Value);
                 }
 
                 string currentLine = currentLineBuilder.ToString();
 
                 if (currentLine.Length != _solution.Length)
                 {
-                    _toastNotificationService.ShowToast(_loc["GameManagerNotEnoughLetters"]);
-                    OnBoardLineWrongSolution.Invoke(currentRow);
+                    _toastNotificationService.ShowToast(_localizationService["GameManagerNotEnoughLetters"]);
+                    OnBoardLineWrongSolution.Invoke(_currentRow);
                     return;
                 }
 
-                if (!validWords.Contains(currentLine) && currentLine != _solution)
+                if (!_validWords.Contains(currentLine) && currentLine != _solution)
                 {
-                    _toastNotificationService.ShowToast(_loc["GameManagerWordDoesNotExist"]);
-                    OnBoardLineWrongSolution.Invoke(currentRow);
+                    _toastNotificationService.ShowToast(_localizationService["GameManagerWordDoesNotExist"]);
+                    OnBoardLineWrongSolution.Invoke(_currentRow);
                     return;
                 }
 
@@ -193,7 +152,7 @@ namespace WordleBlazor.Services
                     {
                         if (foundIndexes.Contains(i))
                         {
-                            _boardGrid[currentRow, i].State = BoardCellState.Correct;
+                            _boardGrid[_currentRow, i].State = BoardCellState.Correct;
 
                             if (!_usedKeys.TryAdd(currentLine[i], KeyState.Correct))
                                 _usedKeys[currentLine[i]] = KeyState.Correct;
@@ -204,16 +163,16 @@ namespace WordleBlazor.Services
                             {
                                 if (foundIndexes.Count > GetCurrentRowIncorrectPositionCellsFromValue(currentLine[i]))
                                 {
-                                    _boardGrid[currentRow, i].State = BoardCellState.IncorrectPosition;
+                                    _boardGrid[_currentRow, i].State = BoardCellState.IncorrectPosition;
                                 }
                                 else
                                 {
-                                    _boardGrid[currentRow, i].State = BoardCellState.Wrong;
+                                    _boardGrid[_currentRow, i].State = BoardCellState.Wrong;
                                 }
                             }
                             else
                             {
-                                _boardGrid[currentRow, i].State = BoardCellState.Wrong;
+                                _boardGrid[_currentRow, i].State = BoardCellState.Wrong;
                             }
 
                             _usedKeys.TryAdd(currentLine[i], KeyState.IncorrectPosition);
@@ -221,34 +180,81 @@ namespace WordleBlazor.Services
                     }
                     else
                     {
-                        _boardGrid[currentRow, i].State = BoardCellState.Wrong;
+                        _boardGrid[_currentRow, i].State = BoardCellState.Wrong;
                         _usedKeys.TryAdd(currentLine[i], KeyState.Wrong);
                     }
                 }
 
-                OnCurrentLineCheckedSolution.Invoke(currentRow);
+                OnCurrentLineCheckedSolution.Invoke(_currentRow);
 
                 if (currentLine == _solution)
                 {
                     _gameState = GameState.Win;
                 }
-                else if (currentRow < RowSize - 1)
+                else if (_currentRow < RowSize - 1)
                 {
-                    currentRow++;
-                    currentColumn = 0;
+                    _currentRow++;
+                    _currentColumn = 0;
                 }
                 else
                 {
                     _gameState = GameState.GameOver;
                 }
 
-                await SaveCurrentGameStateToLocalStorage();
+                await _localStorageService.SaveCurrentBoardToLocalStorage(GetBoardGridWords());
+
+                if (_gameState == GameState.Win || _gameState == GameState.GameOver)
+                {
+                    await _localStorageService.UpdateGameStats(_gameState, _currentRow);
+                    await _localStorageService.SaveLastGameFinishedDate();
+                }
             }
         }
 
         public int GetCurrentRow()
         {
-            return currentRow;
+            return _currentRow;
+        }
+
+        private async Task LoadDictionary()
+        {
+            string dictionaryPath;
+
+            if (_localizationService.CurrentLanguage == Language.English)
+            {
+                dictionaryPath = "data/english-words.json";
+            }
+            else
+            {
+                dictionaryPath = "data/spanish-words.json";
+            }
+
+            var wordList = await _httpClient.GetFromJsonAsync<List<string>>(dictionaryPath);
+
+            _validWords = wordList ?? new List<string>();
+        }
+
+        private async Task GetTodaySolution()
+        {
+            string solutionPath;
+
+            if (_localizationService.CurrentLanguage == Language.English)
+            {
+                solutionPath = "data/daily-solutions-en.json";
+            }
+            else
+            {
+                solutionPath = "data/daily-solutions-sp.json";
+            }
+
+            var solutions = await _httpClient.GetFromJsonAsync<Dictionary<int, string>>(solutionPath);
+
+            if (solutions != null)
+            {
+                var currentTime = DateTime.Now;
+                _solution = solutions[currentTime.DayOfYear];
+                _localStorageService.GameStarted = currentTime;
+            }
         }
 
         private void PopulateBoard()
@@ -265,7 +271,7 @@ namespace WordleBlazor.Services
         private int GetCurrentRowCorrectCellsFromValue(List<int> foundIndexes, char value)
         {
             var valueCells = Enumerable.Range(0, _boardGrid.GetLength(1))
-                .Select(x => _boardGrid[currentRow, x])
+                .Select(x => _boardGrid[_currentRow, x])
                 .ToArray();
 
             int count = 0;
@@ -282,85 +288,17 @@ namespace WordleBlazor.Services
         private int GetCurrentRowIncorrectPositionCellsFromValue(char value)
         {
             return Enumerable.Range(0, _boardGrid.GetLength(1))
-                    .Select(x => _boardGrid[currentRow, x])
+                    .Select(x => _boardGrid[_currentRow, x])
                     .Where(x => x.Value == value && x.State == BoardCellState.IncorrectPosition)
                     .ToArray().Length;
         }
 
-        private async Task LoadGameStateFromLocalStorage()
-        {
-            DateTime localStorageLastDayPlayed = await _localStorage.GetItemAsync<DateTime>(nameof(lastGamePlayedDate) + _loc.GetCurrentLanguageSuffix());
-            var today = DateTime.Now.Date;
-
-            if (localStorageLastDayPlayed == today)
-            {
-                lastGamePlayedDate = localStorageLastDayPlayed;
-
-                var board = await _localStorage.GetItemAsync<List<string>>(nameof(BoardGrid) + _loc.GetCurrentLanguageSuffix());
-                if (board != null)
-                {
-                    await SetBoardGridWords(board);
-                }
-            }
-            else
-            {
-                lastGamePlayedDate = gameStarted.Date;
-                await _localStorage.SetItemAsync(nameof(lastGamePlayedDate) + _loc.GetCurrentLanguageSuffix(), gameStarted.Date);
-                await _localStorage.RemoveItemAsync(nameof(BoardGrid) + _loc.GetCurrentLanguageSuffix());
-            }
-        }
-
-        private async Task SaveCurrentGameStateToLocalStorage()
-        {
-            await _localStorage.SetItemAsync(nameof(BoardGrid) + _loc.GetCurrentLanguageSuffix(), GetBoardGridWords());
-
-            if (_gameState == GameState.Win || _gameState == GameState.GameOver)
-            {
-                await UpdateGameStats();
-                await _localStorage.SetItemAsync("lastGameFinishedDate" + _loc.GetCurrentLanguageSuffix(), lastGamePlayedDate);
-            }
-        }
-
-        private async Task UpdateGameStats()
-        {
-            var lastGameFinishedDate = await _localStorage.GetItemAsync<DateTime>("lastGameFinishedDate" + _loc.GetCurrentLanguageSuffix());
-            var today = DateTime.Now.Date;
-
-            if (lastGameFinishedDate != today)
-            {
-                var stats = await _localStorage.GetItemAsync<Stats>(nameof(Stats) + _loc.GetCurrentLanguageSuffix());
-                if (stats == null)
-                {
-                    stats = new Stats();
-                }
-
-                stats.GamesPlayed++;
-
-                if (GameState == GameState.Win)
-                {
-                    stats.GamesWon++;
-                    stats.CurrentStreak++;
-
-                    if (stats.CurrentStreak > stats.BestStreak)
-                        stats.BestStreak = stats.CurrentStreak;
-
-                    stats.GamesResultDistribution[currentRow + 1]++;
-                }
-                else
-                {
-                    stats.CurrentStreak = 0;
-                    stats.GamesResultDistribution[-1]++;
-                }
-
-                await _localStorage.SetItemAsync(nameof(Stats) + _loc.GetCurrentLanguageSuffix(), stats);
-            }
-        }
 
         private List<string> GetBoardGridWords()
         {
             var wordList = new List<string>();
 
-            for (int i = 0; i <= currentRow; i++)
+            for (int i = 0; i <= _currentRow; i++)
             {
                 if (_boardGrid[i, 0].State != BoardCellState.Empty && _boardGrid[i, 0].State != BoardCellState.Typing)
                 {
@@ -386,8 +324,8 @@ namespace WordleBlazor.Services
 
                 foreach (var c in word)
                 {
-                    _boardGrid[currentRow, col].State = BoardCellState.Typing;
-                    _boardGrid[currentRow, col].Value = c;
+                    _boardGrid[_currentRow, col].State = BoardCellState.Typing;
+                    _boardGrid[_currentRow, col].Value = c;
 
                     col++;
                 }

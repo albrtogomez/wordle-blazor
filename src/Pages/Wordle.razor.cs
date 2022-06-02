@@ -8,7 +8,7 @@ namespace WordleBlazor.Pages
 {
     public partial class Wordle
     {
-        private readonly IReadOnlyList<string> validKeys = new List<string>()
+        private readonly IReadOnlyList<string> _validKeys = new List<string>()
         {
             "ENTER", "BACKSPACE",
             "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
@@ -16,34 +16,34 @@ namespace WordleBlazor.Pages
             "Z", "X", "C", "V", "B", "N", "M"
         };
 
-        private ElementReference mainDiv;
-        private GameBoard? gameBoard;
-        private bool showStats;
+        private ElementReference _mainDiv;
+        private GameBoard? _gameBoard;
+        private bool _showStats;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                await mainDiv.FocusAsync();
+                await _mainDiv.FocusAsync();
             }
         }
 
         public void ShowStats()
         {
-            showStats = true;
+            _showStats = true;
             StateHasChanged();
         }
 
         private void CloseStats()
         {
-            showStats = false;
+            _showStats = false;
             StateHasChanged();
         }
 
         private async Task KeyDown(KeyboardEventArgs e)
         {
             string key = e.Key.ToUpper();
-            if (GameManagerService.GameState == GameState.Playing && validKeys.Contains(key))
+            if (GameManagerService.GameState == GameState.Playing && _validKeys.Contains(key))
             {
                 if (key == "ENTER")
                 {
@@ -58,7 +58,7 @@ namespace WordleBlazor.Pages
                     GameManagerService.EnterNextValue(Convert.ToChar(key));
                 }
 
-                gameBoard?.NotifyChange();
+                _gameBoard?.NotifyChange();
             }
         }
     }

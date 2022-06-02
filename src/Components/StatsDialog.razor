@@ -6,7 +6,7 @@
     <div class="grid grid-cols-2 gap-3 w-10/12">
 
         <div class="bg-ultralightgray rounded-lg flex flex-col justify-center items-center pt-1 pb-1.5">
-            <p class="text-[35px] leading-none">@stats.GamesPlayed</p>
+            <p class="text-[35px] leading-none">@_stats.GamesPlayed</p>
             <p class="text-[13px] font-thin ">@LocalizationService["StatsGamesPlayed"]</p>
         </div>
 
@@ -16,12 +16,12 @@
         </div>
 
         <div class="bg-ultralightgray rounded-lg flex flex-col justify-center items-center pt-1 pb-1.5">
-            <p class="text-[35px] leading-none">@stats.CurrentStreak</p>
+            <p class="text-[35px] leading-none">@_stats.CurrentStreak</p>
             <p class="text-[13px] font-thin ">@LocalizationService["StatsCurrentStreak"]</p>
         </div>
 
         <div class="bg-ultralightgray rounded-lg flex flex-col justify-center items-center pt-1 pb-1.5">
-            <p class="text-[35px] leading-none">@stats.BestStreak</p>
+            <p class="text-[35px] leading-none">@_stats.BestStreak</p>
             <p class="text-[13px] font-thin ">@LocalizationService["StatsBestStreak"]</p>
         </div>
 
@@ -30,13 +30,13 @@
     <p class="text-lg font-bold mt-4">@LocalizationService["StatsResultDistribution"]</p>
 
     <div class="mt-2">
-        <p>1: @stats.GamesResultDistribution[1] (@GetGameResultDistributionPercent(1) %)</p>
-        <p>2: @stats.GamesResultDistribution[2] (@GetGameResultDistributionPercent(2) %)</p>
-        <p>3: @stats.GamesResultDistribution[3] (@GetGameResultDistributionPercent(3) %)</p>
-        <p>4: @stats.GamesResultDistribution[4] (@GetGameResultDistributionPercent(4) %)</p>
-        <p>5: @stats.GamesResultDistribution[5] (@GetGameResultDistributionPercent(5) %)</p>
-        <p>6: @stats.GamesResultDistribution[6] (@GetGameResultDistributionPercent(6) %)</p>
-        <p>X: @stats.GamesResultDistribution[-1] (@GetGameResultDistributionPercent(-1) %)</p>
+        <p>1: @_stats.GamesResultDistribution[1] (@GetGameResultDistributionPercent(1) %)</p>
+        <p>2: @_stats.GamesResultDistribution[2] (@GetGameResultDistributionPercent(2) %)</p>
+        <p>3: @_stats.GamesResultDistribution[3] (@GetGameResultDistributionPercent(3) %)</p>
+        <p>4: @_stats.GamesResultDistribution[4] (@GetGameResultDistributionPercent(4) %)</p>
+        <p>5: @_stats.GamesResultDistribution[5] (@GetGameResultDistributionPercent(5) %)</p>
+        <p>6: @_stats.GamesResultDistribution[6] (@GetGameResultDistributionPercent(6) %)</p>
+        <p>X: @_stats.GamesResultDistribution[-1] (@GetGameResultDistributionPercent(-1) %)</p>
     </div>
     
 </div>

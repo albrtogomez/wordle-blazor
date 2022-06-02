@@ -14,25 +14,25 @@ namespace WordleBlazor.Shared
         [Parameter, EditorRequired]
         public RenderFragment ChildContent { get; set; } = default!;
 
-        private System.Timers.Timer endAnimationTimer = default!;
-        private string animationStyles = "";
+        private System.Timers.Timer _endAnimationTimer = default!;
+        private string _animationStyles = "";
 
         protected override void OnInitialized()
         {
-            endAnimationTimer = new System.Timers.Timer(Duration) { AutoReset = false };
-            endAnimationTimer.Elapsed += EndAnimation;
+            _endAnimationTimer = new System.Timers.Timer(Duration) { AutoReset = false };
+            _endAnimationTimer.Elapsed += EndAnimation;
         }
 
         public void TriggerAnimation()
         {
-            animationStyles = Name;
+            _animationStyles = Name;
             StateHasChanged();
-            endAnimationTimer.Start();
+            _endAnimationTimer.Start();
         }
 
         private void EndAnimation(object? sender, ElapsedEventArgs e)
         {
-            animationStyles = "";
+            _animationStyles = "";
             StateHasChanged();
         }
     }

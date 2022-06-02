@@ -19,7 +19,7 @@ namespace WordleBlazor.Components
             set
             {
                 if (value == BoardCellState.Empty)
-                    TriggerFlipClass = "";
+                    _triggerFlipClass = "";
 
                 _cellState = value;
             }
@@ -31,8 +31,9 @@ namespace WordleBlazor.Components
         [Parameter, EditorRequired]
         public int ColumnIndex { get; set; }
 
-        private string TriggerFlipClass = "";
         private string FlipDelay => ColumnIndex > 0 ? $"{ColumnIndex * 200}ms" : "";
+
+        private string _triggerFlipClass = "";
 
         protected override void OnInitialized()
         {
@@ -48,10 +49,10 @@ namespace WordleBlazor.Components
         {
             if (currentRow == RowIndex)
             {
-                if (string.IsNullOrEmpty(TriggerFlipClass))
-                    TriggerFlipClass = "doflip";
+                if (string.IsNullOrEmpty(_triggerFlipClass))
+                    _triggerFlipClass = "doflip";
                 else
-                    TriggerFlipClass = "";
+                    _triggerFlipClass = "";
             }
         }
 

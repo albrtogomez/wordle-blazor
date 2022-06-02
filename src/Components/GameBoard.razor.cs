@@ -27,16 +27,15 @@ namespace WordleBlazor.Components
         private bool ShowKeyboard => GameManagerService.GameState == GameState.NotStarted ||
                 GameManagerService.GameState == GameState.Playing;
 
-        private string timeLeftForNextWord = "00:00:00";
-        private System.Timers.Timer currentTimeUpdaterTimer = null!;
+        private string _timeLeftForNextWord = "00:00:00";
+        private System.Timers.Timer _currentTimeUpdaterTimer = null!;
+        private readonly DateTime _today = DateTime.Today;
 
         protected override async Task OnInitializedAsync()
         {
-            await GameManagerService.LoadGameData();
-
-            currentTimeUpdaterTimer = new System.Timers.Timer(1000);
-            currentTimeUpdaterTimer.Elapsed += UpdateCurrentTime;
-            currentTimeUpdaterTimer.Start();
+            _currentTimeUpdaterTimer = new System.Timers.Timer(1000);
+            _currentTimeUpdaterTimer.Elapsed += UpdateCurrentTime;
+            _currentTimeUpdaterTimer.Start();
 
             await GameManagerService.StartGame();
         }
@@ -48,7 +47,17 @@ namespace WordleBlazor.Components
 
         private void UpdateCurrentTime(object? sender, ElapsedEventArgs e)
         {
-            timeLeftForNextWord = (DateTime.Today.AddDays(1) - DateTime.Now).ToString(@"hh\:mm\:ss");
+            var timeLeft = _today.AddDays(1) - DateTime.Now;
+
+            if (timeLeft > TimeSpan.Zero)
+            {
+                _timeLeftForNextWord = (DateTime.Today.AddDays(1) - DateTime.Now).ToString(@"hh\:mm\:ss");
+            }
+            else
+            {
+                _timeLeftForNextWord = "00:00:00";
+                _currentTimeUpdaterTimer.Dispose();
+            }
 
             InvokeAsync(StateHasChanged);
         }

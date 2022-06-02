@@ -12,7 +12,7 @@ namespace WordleBlazor.Components
         [Parameter, EditorRequired]
         public RenderFragment ChildContent { get; set; } = default !;
 
-        private Animation AnimationRef = default !;
+        private Animation _animationRef = default !;
 
         protected override void OnInitialized()
         {
@@ -27,7 +27,7 @@ namespace WordleBlazor.Components
         private void TriggerAnimation(int currentRow)
         {
             if (currentRow == RowIndex)
-                AnimationRef.TriggerAnimation();
+                _animationRef.TriggerAnimation();
         }
     }
 }

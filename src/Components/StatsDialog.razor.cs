@@ -4,28 +4,28 @@ namespace WordleBlazor.Components
 {
     public partial class StatsDialog
     {
-        private Stats stats = new();
+        private Stats _stats = new();
 
         protected override async Task OnInitializedAsync()
         {
             var storedStats = await localStorage.GetItemAsync<Stats>(nameof(Stats) + LocalizationService.GetCurrentLanguageSuffix());
 
             if (storedStats != null)
-                stats = storedStats;
+                _stats = storedStats;
         }
 
         private string GetGamesWonPercent()
         {
-            if (stats.GamesPlayed > 0)
-                return (stats.GamesWon * 100 / stats.GamesPlayed).ToString();
+            if (_stats.GamesPlayed > 0)
+                return (_stats.GamesWon * 100 / _stats.GamesPlayed).ToString();
             else
                 return "0";
         }
 
         private string GetGameResultDistributionPercent(int keyRow)
         {
-            if (stats.GamesPlayed > 0)
-                return (stats.GamesResultDistribution[keyRow] * 100 / stats.GamesPlayed).ToString();
+            if (_stats.GamesPlayed > 0)
+                return (_stats.GamesResultDistribution[keyRow] * 100 / _stats.GamesPlayed).ToString();
             else
                 return "0";
         }
