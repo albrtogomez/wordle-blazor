@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" class="w-screen h-screen">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width, user-scalable=0">
+
+    <title>Wordle Blazor</title>
+    <base href="/wordle-blazor/" />
+
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/blazor-errors.css" rel="stylesheet" />
+    <link href="WordleBlazor.styles.css" rel="stylesheet" />
+    <link href="favicon.ico?" rel="icon" type="image/x-icon">
+
+</head>
+
+<body class="m-0 p-0 select-none overflow-y-auto overflow-x-hidden font-sans w-screen h-screen touch-manipulation">
+    
+    <div class="flex flex-col justify-between items-center h-screen" id="app">
+        <object class="mt-80" data="images/loading.svg" width="80" height="80" />
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+
+</body>
+
+</html>
