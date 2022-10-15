@@ -57,8 +57,6 @@ My only rule from the beginning of this project is not to write a single line in
 - [x] Add English localization with language selector
 - [x] Add English valid words dataset and daily solutions
 - [x] Separate local storage data for each language to keep game state and stats independent
-- [ ] Implement mediator pattern for communication between components and game logic
-- [ ] Code cleanup
 
 <!-- CONTRIBUTING -->
 ## Contributing
